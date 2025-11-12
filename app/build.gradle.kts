@@ -4,11 +4,13 @@ plugins {
 }
 
 android {
+    namespace = "com.example.b07demosummer2024"
+android {
     namespace = "com.SmartAir"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.SmartAir"
+        applicationId = "com.example.b07demosummer2024"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -20,13 +22,9 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,6 +49,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.cardview)
     implementation(libs.recyclerview)
