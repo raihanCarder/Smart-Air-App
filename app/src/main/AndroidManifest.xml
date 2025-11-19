@@ -27,6 +27,10 @@
             android:exported="false" />
         <activity android:name=".ParentDashboard.view.ParentDashboardActivity"
             android:exported="false"/>
+
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
 </manifest>
