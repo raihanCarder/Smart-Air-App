@@ -7,4 +7,10 @@
     <string name="parent">Parent</string>
     <string name="provider">Provider</string>
     <string name="child">Child</string>
+
+    <string-array name="options_array">
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+    </string-array>
 </resources>
