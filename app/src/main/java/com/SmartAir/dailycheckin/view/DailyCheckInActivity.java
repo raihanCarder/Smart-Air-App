@@ -11,11 +11,14 @@ import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class DailyCheckInActivity extends AppCompatActivity implements DailyCheckInContract.View {
 
     private Button submitBtn;
     private Button exitBtn;
+
+    private TextView outputLog;
     private CheckBox nightWakingCheckBox;
     private CheckBox limitedAbilityCheckBox;
     private CheckBox sickCheckBox;
@@ -28,6 +31,9 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         super.onCreate(savedInstanceState); // normal activity setup
         setContentView(R.layout.activity_daily_check_in); // this draws whatever is in that xml.
 
+        // TODO: Based upon user if Parent can choose which child to submit daily activiy
+        // TODO: Cannot submit more then one daily activity per day per child
+
         presenter = new DailyCheckInPresenter(this);
 
         exitBtn = findViewById(R.id.dailyCheckInExitBtn);
@@ -36,6 +42,8 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         limitedAbilityCheckBox = findViewById(R.id.dailyCheckInLimitActivityChkBox);
         sickCheckBox = findViewById(R.id.dailyCheckInSickChkBox);
         triggerChipGroup = findViewById(R.id.dailyCheckInTriggerChipGroup);
+        outputLog = findViewById(R.id.ouputResults); // TODO: Delete later
+
 
         submitBtn.setOnClickListener(v -> {
             SubmitDataToPresenter();
@@ -75,17 +83,18 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
     }
 
     public void exit(){
-        // go back to either Parent or Child Dashboards
+        // TODO: go back to either Parent or Child Dashboards depending on User
     }
 
     @Override
     public void showSubmitSuccess(){
-        System.out.println("Data Successfully Submitted");
+        outputLog.setText("Submit Success");
+        // TODO : Navigate back to home after
     }
 
     @Override
     public void showSubmitFailure(){
-        System.out.println("Data Not Successfully Submitted");
+        outputLog.setText("Submit Fail");
     }
 
 }
