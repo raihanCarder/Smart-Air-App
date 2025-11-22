@@ -1,5 +1,6 @@
 package com.SmartAir.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,7 @@ public class RoleSelectionActivity extends AppCompatActivity implements RoleSele
 
     @Override
     public void navigateToParentSignIn() {
-        // TODO: Implement navigation to parent sign-in screen
+        startActivity(new Intent(this, PEFEntryActivity.class));
     }
 
     @Override

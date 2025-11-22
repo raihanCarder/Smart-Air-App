@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SmartAir.R;
 import com.SmartAir.presenter.WelcomePresenter;
 
-public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
+public class  WelcomeActivity extends AppCompatActivity implements WelcomeView {
 
     private WelcomePresenter presenter;
 

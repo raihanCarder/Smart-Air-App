@@ -7,4 +7,9 @@
     <string name="parent">Parent</string>
     <string name="provider">Provider</string>
     <string name="child">Child</string>
+    <string name="PEF_Entry">pef_Entry</string>
+    <string name="USE_PEF_ENTRY">Can Use Button For PEF Entry</string>
+    <string name="enter_a_number">Enter a number</string>
+    <string name="enter_your_pef_number">Enter your PEF Number</string>
+    <string name="Submit">Submit</string>
 </resources>
