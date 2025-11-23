@@ -17,12 +17,8 @@ public class GlossaryActivity extends AppCompatActivity{
         exitBtn = findViewById(R.id.glossaryExitBtn);
 
         exitBtn.setOnClickListener(v -> {
-            exit();
+            finish();
         });
-    }
-
-    public void exit(){
-        // TODO: Return back to whatever homepage
     }
 }
 
