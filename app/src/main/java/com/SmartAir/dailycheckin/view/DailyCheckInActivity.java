@@ -1,6 +1,6 @@
 package com.SmartAir.dailycheckin.view;
-import com.SmartAir.R; // R obj that contains all info regarding layout and obj inside them
-import androidx.appcompat.app.AppCompatActivity; // base class for android screens
+import com.SmartAir.R;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.CheckBox;
 import com.SmartAir.dailycheckin.DailyCheckInContract;
@@ -28,8 +28,8 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); // normal activity setup
-        setContentView(R.layout.activity_daily_check_in); // this draws whatever is in that xml.
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_daily_check_in);
 
         // TODO: Based upon user if Parent can choose which child to submit daily activiy
         // TODO: Cannot submit more then one daily activity per day per child
@@ -50,7 +50,7 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         });
 
         exitBtn.setOnClickListener(v ->{
-            exit();
+            finish();
         });
     }
 
@@ -82,19 +82,15 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         presenter.submitDailyCheckIn(isNightWalking,hasLimitedAbility,isSick,triggers);
     }
 
-    public void exit(){
-        // TODO: go back to either Parent or Child Dashboards depending on User
-    }
-
     @Override
     public void showSubmitSuccess(){
-        outputLog.setText("Submit Success");
-        // TODO : Navigate back to home after
+        outputLog.setText("Submit Success"); // TODO: delete later
+        finish();
     }
 
     @Override
     public void showSubmitFailure(){
-        outputLog.setText("Submit Fail");
+        outputLog.setText("Submit Fail"); // TODO: delete later
     }
 
 }
