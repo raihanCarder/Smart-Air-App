@@ -12,10 +12,13 @@ import com.SmartAir.R;
 import com.SmartAir.presenter.startTriagePresenter;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class startTriageActivity extends AppCompatActivity implements startTriageView {
 
     private startTriagePresenter presenter;
-    Handler h = new Handler(Looper.myLooper());
+    Handler h = new Handler(Objects.requireNonNull(Looper.myLooper()));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
