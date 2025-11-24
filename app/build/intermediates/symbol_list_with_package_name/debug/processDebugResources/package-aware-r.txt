@@ -3099,6 +3099,7 @@ id CTRL
 id FUNCTION
 id META
 id NO_DEBUG
+id PEFNumber
 id SHIFT
 id SHOW_ALL
 id SHOW_PATH
@@ -3274,7 +3275,6 @@ id easeInOut
 id easeOut
 id east
 id edge
-id editTextNumber
 id edit_query
 id elastic
 id embed

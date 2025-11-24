@@ -8,10 +8,10 @@ color secondary_dark
 color white
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+id PEFNumber
 id Submit_Button
 id child_button
 id continue_button
-id editTextNumber
 id parent_button
 id pef_button
 id provider_button
