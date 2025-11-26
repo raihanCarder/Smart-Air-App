@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.firestore)
 
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
