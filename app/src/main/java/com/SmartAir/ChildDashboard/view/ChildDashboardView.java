@@ -9,9 +9,5 @@ public interface ChildDashboardView {
 
     void showTechniqueStreak(int numDays);
 
-    void showControllerInventoryStatus(String controllerStatus);
-
-    void showRescueInventoryStatus(String rescueStatus);
-
     void showMessage(String message);
 }
