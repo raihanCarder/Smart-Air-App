@@ -124,7 +124,7 @@ public class SelectChildLoginPresenterTest {
     @Test
     public void onChildSelected_validPassword_newUser_navigatesToOnboarding() {
         ChildUser child = new ChildUser("child@test.com", "Child Name", "parent123");
-        child.setHasCompletedOnboarding(false); // Explicitly set for clarity
+        child.setHasCompletedOnboarding(false);
         String password = "password";
 
         try (MockedStatic<CurrentUser> currentUserStatic = Mockito.mockStatic(CurrentUser.class)) {
@@ -141,6 +141,35 @@ public class SelectChildLoginPresenterTest {
             verify(mockView).navigateToOnboarding();
             verify(mockView, never()).navigateToChildHome();
         }
+    }
+
+    @Test
+    public void onChildSelected_loginSuccessButProfileIsNull_navigatesToOnboarding() {
+        ChildUser child = new ChildUser("child@test.com", "Child Name", "parent123");
+        String password = "password";
+
+        try (MockedStatic<CurrentUser> currentUserStatic = Mockito.mockStatic(CurrentUser.class)) {
+            currentUserStatic.when(CurrentUser::getInstance).thenReturn(mockCurrentUser);
+            when(mockCurrentUser.getUserProfile()).thenReturn(null);
+
+            presenter.onChildSelected(child, password);
+
+            verify(mockView).setLoading(true);
+            verify(mockAuthRepository).signInChild(eq("Child Name"), eq(password), authCallbackCaptor.capture());
+            authCallbackCaptor.getValue().onSuccess();
+
+            verify(mockView).setLoading(false);
+            verify(mockView).navigateToOnboarding();
+            verify(mockView, never()).navigateToChildHome();
+        }
+    }
+
+    @Test
+    public void onChildSelected_nullPassword_showsError() {
+        ChildUser child = new ChildUser();
+        presenter.onChildSelected(child, null);
+        verify(mockView).displayError("Password cannot be empty.");
+        verify(mockAuthRepository, never()).signInChild(any(), any(), any());
     }
 
     @Test
