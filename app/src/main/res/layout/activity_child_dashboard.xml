@@ -162,22 +162,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_controller_inventory_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Controller inhaler: Good!"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:id="@+id/tv_rescue_inventory_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Rescue inhaler: Good!"
-                    android:textSize="14sp"
-                    android:layout_marginTop="8dp" />
-
                 <Button
                     android:id="@+id/btn_update_inventory"
                     android:layout_width="match_parent"

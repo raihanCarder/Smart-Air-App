@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SmartAir.ChildDashboard.data.ChildDashboardRepository;
 import com.SmartAir.ChildDashboard.presenter.ChildDashboardPresenter;
 import com.SmartAir.R;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ChildDashboardActivity extends AppCompatActivity implements ChildDashboardView {
 
@@ -24,8 +23,7 @@ public class ChildDashboardActivity extends AppCompatActivity implements ChildDa
 
         setContentView(R.layout.activity_child_dashboard);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        ChildDashboardRepository repo = new ChildDashboardRepository(db);
+        ChildDashboardRepository repo = new ChildDashboardRepository();
         presenter = new ChildDashboardPresenter(this, repo);
 
         Button dailyCheckInButton = findViewById(R.id.btn_daily_check_in);
@@ -98,20 +96,6 @@ public class ChildDashboardActivity extends AppCompatActivity implements ChildDa
         } else {
             techniqueStreak.setText("Technique streak: " + numDays + " days " + FIRE_EMOJI + FIRE_EMOJI + FIRE_EMOJI);
         }
-    }
-
-    @Override
-    public void showControllerInventoryStatus(String controllerStatus) {
-        TextView controllerInventoryStatus = findViewById(R.id.tv_controller_inventory_status);
-
-        controllerInventoryStatus.setText(controllerStatus);
-    }
-
-    @Override
-    public void showRescueInventoryStatus(String rescueStatus) {
-        TextView rescueInventoryStatus = findViewById(R.id.tv_rescue_inventory_status);
-
-        rescueInventoryStatus.setText(rescueStatus);
     }
 
     @Override
