@@ -14,7 +14,7 @@ public class ChildDashboardPresenter {
     }
 
     public void onScreenStart(String parentId, String childId) {
-        repo.getChildName(view::showWelcomeMessage, view::showMessage);
+        repo.getChildName();
     }
 
     public void onDailyCheckInClicked() {
