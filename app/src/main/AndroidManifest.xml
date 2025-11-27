@@ -60,6 +60,9 @@
         <activity
             android:name=".onboarding.view.AddChildActivity"
             android:exported="false" />
+        <activity
+            android:name=".onboarding.view.SelectChildLoginActivity"
+            android:exported="false" />
 
     </application>
 

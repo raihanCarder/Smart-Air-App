@@ -2,10 +2,12 @@ package com.SmartAir.onboarding.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,16 +18,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SmartAir.R;
+import com.SmartAir.onboarding.model.AuthRepository;
 import com.SmartAir.onboarding.model.CurrentUser;
 import com.SmartAir.onboarding.model.OnboardingStep;
 import com.SmartAir.onboarding.presenter.OnboardingPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-// Corrected imports for Home Activities
-import com.SmartAir.onboarding.view.ChildHomeActivity;
-import com.SmartAir.onboarding.view.ParentHomeActivity;
-import com.SmartAir.onboarding.view.ProviderHomeActivity;
 
 import java.util.List;
 
@@ -37,21 +35,37 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingV
     private Button skipButton;
     private TabLayout tabLayout;
     private OnboardingAdapter adapter;
+    private ProgressBar loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
 
-        presenter = new OnboardingPresenter(this);
+        // Inject dependencies instead of using default constructor
+        presenter = new OnboardingPresenter(
+                this,
+                AuthRepository.getInstance(),
+                CurrentUser.getInstance()
+        );
 
         viewPager = findViewById(R.id.view_pager);
         nextButton = findViewById(R.id.next_button);
         skipButton = findViewById(R.id.skip_button);
         tabLayout = findViewById(R.id.dots_indicator);
+        loadingIndicator = findViewById(R.id.loading_indicator);
 
-        presenter.onViewCreated();
+        // Show loading indicator
+        loadingIndicator.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
+        nextButton.setVisibility(View.GONE);
+        skipButton.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+
+        // Delay the presenter call to allow the UI to draw the loading indicator
+        new Handler().postDelayed(() -> presenter.onViewCreated(), 500); // 500ms delay
     }
+
 
     @Override
     public void displayOnboardingSteps(List<OnboardingStep> steps) {
@@ -59,6 +73,13 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingV
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {}).attach();
+
+        // Hide loading indicator and show content
+        loadingIndicator.setVisibility(View.GONE);
+        viewPager.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.VISIBLE);
+        skipButton.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
 
         nextButton.setOnClickListener(v -> {
             if (viewPager.getCurrentItem() < adapter.getItemCount() - 1) {
@@ -89,24 +110,34 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingV
         Intent intent;
 
         if (role == null) {
-            intent = new Intent(this, WelcomeActivity.class);
-        } else {
-            switch (role.toLowerCase()) {
-                case "parent":
-                    intent = new Intent(this, ParentHomeActivity.class);
-                    break;
-                case "provider":
-                    intent = new Intent(this, ProviderHomeActivity.class);
-                    break;
-                case "child":
-                    intent = new Intent(this, ChildHomeActivity.class);
-                    break;
-                default:
-                    intent = new Intent(this, WelcomeActivity.class);
-                    break;
-            }
+            navigateToWelcomeAndLogout();
+            return;
         }
 
+        switch (role.toLowerCase()) {
+            case "parent":
+                intent = new Intent(this, ParentHomeActivity.class);
+                break;
+            case "provider":
+                intent = new Intent(this, ProviderHomeActivity.class);
+                break;
+            case "child":
+                intent = new Intent(this, ChildHomeActivity.class);
+                break;
+            default:
+                intent = new Intent(this, WelcomeActivity.class);
+                break;
+        }
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToWelcomeAndLogout() {
+        AuthRepository.getInstance().logout();
+        Intent intent = new Intent(this, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

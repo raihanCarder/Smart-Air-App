@@ -8,10 +8,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AuthRepository {
@@ -21,6 +24,9 @@ public class AuthRepository {
     private final FirebaseAuth firebaseAuth;
     private final FirebaseFirestore firestore;
     private final CurrentUser currentUser;
+
+    private String parentEmail;
+    private String parentPassword;
 
     private AuthRepository() {
         this.firebaseAuth = FirebaseAuth.getInstance();
@@ -37,6 +43,26 @@ public class AuthRepository {
             }
         }
         return instance;
+    }
+
+    public void fetchChildrenForParent(String parentId, @NonNull final ChildrenCallback callback) {
+        firestore.collection("Users")
+                .whereEqualTo("parentId", parentId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<ChildUser> children = new ArrayList<>();
+                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                            ChildUser child = document.toObject(ChildUser.class);
+                            if (child != null) {
+                                children.add(child);
+                            }
+                        }
+                        callback.onSuccess(children);
+                    } else {
+                        callback.onFailure("Failed to fetch children.");
+                    }
+                });
     }
 
     public void markOnboardingAsCompleted() {
@@ -77,8 +103,19 @@ public class AuthRepository {
                         DocumentReference parentDocRef = firestore.collection("Users").document(parentUid);
                         batch.update(parentDocRef, "childrenIds", FieldValue.arrayUnion(childUid));
 
-                        batch.commit().addOnSuccessListener(aVoid -> callback.onSuccess())
-                                .addOnFailureListener(e -> callback.onFailure("Failed to save user data: " + e.getMessage()));
+                        batch.commit().addOnSuccessListener(aVoid -> {
+                            reauthenticateParent(new AuthCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    callback.onSuccess();
+                                }
+
+                                @Override
+                                public void onFailure(String errorMessage) {
+                                    callback.onFailure("Child created, but failed to restore parent session. Please log in again.");
+                                }
+                            });
+                        }).addOnFailureListener(e -> callback.onFailure("Failed to save user data: " + e.getMessage()));
 
                     } else {
                         Exception exception = task.getException();
@@ -131,6 +168,8 @@ public class AuthRepository {
     }
 
     public void signInUser(String email, String password, @NonNull final AuthCallback callback) {
+        this.parentEmail = email;
+        this.parentPassword = password;
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -180,6 +219,8 @@ public class AuthRepository {
     public void logout() {
         firebaseAuth.signOut();
         currentUser.clear();
+        parentEmail = null;
+        parentPassword = null;
     }
 
     public void fetchUserProfile(FirebaseUser firebaseUser, @NonNull final AuthCallback callback) {
@@ -214,6 +255,21 @@ public class AuthRepository {
                 });
     }
 
+    private void reauthenticateParent(AuthCallback callback) {
+        if (parentEmail != null && parentPassword != null) {
+            firebaseAuth.signInWithEmailAndPassword(parentEmail, parentPassword)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            callback.onSuccess();
+                        } else {
+                            callback.onFailure("Failed to re-authenticate parent.");
+                        }
+                    });
+        } else {
+            callback.onFailure("Parent credentials not available for re-authentication.");
+        }
+    }
+
     private void updateLastLogin(String uid) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("lastLoginAt", Timestamp.now());
@@ -222,6 +278,11 @@ public class AuthRepository {
 
     public interface AuthCallback {
         void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
+    public interface ChildrenCallback {
+        void onSuccess(List<ChildUser> children);
         void onFailure(String errorMessage);
     }
 }

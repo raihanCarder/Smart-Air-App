@@ -3,6 +3,7 @@ package com.SmartAir.onboarding.model;
 public class ChildUser extends BaseUser {
 
     private String parentId;
+    private Integer personalBestPEF; // Personal Best Peak Expiratory Flow
 
     // Required empty public constructor for Firestore
     public ChildUser() {
@@ -21,5 +22,13 @@ public class ChildUser extends BaseUser {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getPersonalBestPEF() {
+        return personalBestPEF;
+    }
+
+    public void setPersonalBestPEF(Integer personalBestPEF) {
+        this.personalBestPEF = personalBestPEF;
     }
 }
