@@ -1,30 +1,164 @@
 package com.SmartAir.ChildDashboard.data;
 
+import com.SmartAir.onboarding.model.CurrentUser;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.Objects;
 
 public class ChildDashboardRepository {
 
     private final FirebaseFirestore db;
 
-    public ChildDashboardRepository(FirebaseFirestore db) {
-        this.db = db;
+    private final CurrentUser user;
+
+    public ChildDashboardRepository() {
+        this.db = FirebaseFirestore.getInstance();
+        this.user = CurrentUser.getInstance();
     }
 
-    public void getChildName(String parentId, String childId, Consumer<String> onSuccess, Consumer<String> onError) {
-        db.collection("users").document(parentId).collection("children").document(childId).get()
-            .addOnSuccessListener(doc -> {
+    public boolean isChild() {
+        String role = user.getRole();
+
+        return Objects.equals(role, "child");
+    }
+
+    public Task<String> getChildName() {
+        if (!isChild()) {
+            return Tasks.forException(new Exception("Error: Child account not found."));
+        }
+
+        String childId = user.getUid();
+
+        return db.collection("Users")
+            .document(childId)
+            .get()
+            .continueWith(task -> {
+                if (!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+
+                DocumentSnapshot doc = task.getResult();
+
                 if (doc.exists()) {
                     String name = doc.getString("name");
-                    onSuccess.accept(name);
+                    if (name == null || name.trim().isEmpty()) {
+                        throw new Exception("Child name missing.");
+                    } else {
+                        return name;
+                    }
                 } else {
-                    onError.accept("Child not found.");
+                    throw new Exception("Child not found.");
                 }
-        }).addOnFailureListener(e -> onError.accept(e.getMessage()));
+            });
     }
 
-    public void getControllerInhalerStatus(String itemId, Consumer<String> onSuccess, Consumer<String> onError) {
-        // TODO: Query database to check all controller inhalers. If there is at least 1 that is not expired or then status is good.
+    public Task<Integer> getControllerStreak() {
+        String childId = user.getUid();
+
+        return db.collection("streaks")
+            .document(childId)
+            .get()
+            .continueWith(task -> {
+                if (!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+
+                DocumentSnapshot doc = task.getResult();
+
+                if (doc.exists()) {
+                    Long controllerStreak = doc.getLong("controllerStreak");
+                    if (controllerStreak == null) {
+                        throw new Exception("Controller streak not found.");
+                    }
+
+                    return controllerStreak.intValue();
+                } else {
+                    throw new Exception("Streaks not found.");
+                }
+            });
+    }
+
+    public Task<Integer> getTechniqueStreak() {
+        String childId = user.getUid();
+
+        return db.collection("streaks")
+                .document(childId)
+                .get()
+                .continueWith(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
+
+                    DocumentSnapshot doc = task.getResult();
+
+                    if (doc.exists()) {
+                        Long techniqueStreak = doc.getLong("techniqueStreak");
+                        if (techniqueStreak == null) {
+                            throw new Exception("Technique streak not found.");
+                        }
+
+                        return techniqueStreak.intValue();
+                    } else {
+                        throw new Exception("Streaks not found.");
+                    }
+                });
+    }
+
+    public Task<List<String>> getBadges() {
+        String childId = user.getUid();
+
+        return db.collection("badges")
+            .document(childId)
+            .get()
+            .continueWith(task -> {
+                if (!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+
+                DocumentSnapshot doc = task.getResult();
+
+                if (doc.exists()) {
+                    List<String> badges = (List<String>) doc.get("badges");
+
+                    if (badges == null) {
+                        throw new Exception("Badges not found.");
+                    }
+
+                    return badges;
+                } else {
+                    throw new Exception("Badges not found.");
+                }
+            });
+    }
+
+    public Task<List<String>> getBadgeEarnedDates() {
+        String childId = user.getUid();
+
+        return db.collection("badges")
+                .document(childId)
+                .get()
+                .continueWith(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
+
+                    DocumentSnapshot doc = task.getResult();
+
+                    if (doc.exists()) {
+                        List<String> earnedAt = (List<String>) doc.get("earnedAt");
+
+                        if (earnedAt == null) {
+                            throw new Exception("Badge earned dates not found.");
+                        }
+
+                        return earnedAt;
+                    } else {
+                        throw new Exception("Badges not found.");
+                    }
+                });
     }
 }
