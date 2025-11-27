@@ -17,7 +17,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -43,21 +42,18 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-appcheck-debug")
+    implementation(libs.firebase.firestore)
 
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.firestore)
 
-    // JUnit and Mockito for Local Unit Tests
+    // JUnit and Mockito - Upgraded for Java 21 compatibility
     testImplementation(libs.junit)
-    testImplementation("org.mockito:mockito-core:4.5.1")
-    testImplementation("org.mockito:mockito-inline:4.5.1")
-
+    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
 
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation("com.google.android.material:material:1.10.0")
 }

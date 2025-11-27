@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Group;
 
 import com.SmartAir.R;
+import com.SmartAir.onboarding.model.AuthRepository;
 import com.SmartAir.onboarding.presenter.ChildLoginPresenter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,7 +26,8 @@ public class ChildLoginActivity extends AppCompatActivity implements ChildLoginV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_login);
 
-        presenter = new ChildLoginPresenter(this);
+        // Use DI constructor
+        presenter = new ChildLoginPresenter(this, AuthRepository.getInstance());
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
@@ -40,6 +42,7 @@ public class ChildLoginActivity extends AppCompatActivity implements ChildLoginV
             presenter.onLoginClicked(username, password);
         });
     }
+
 
     @Override
     public void setLoginError(String message) {

@@ -1,6 +1,8 @@
 package com.SmartAir.onboarding.model;
 
-public abstract class BaseUser {
+import java.io.Serializable;
+
+public abstract class BaseUser implements Serializable {
 
     private String role;
     private String email;

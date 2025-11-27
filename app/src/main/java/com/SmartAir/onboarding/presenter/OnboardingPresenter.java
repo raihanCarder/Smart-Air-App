@@ -12,18 +12,20 @@ public class OnboardingPresenter {
 
     private final OnboardingView view;
     private final AuthRepository authRepository;
+    private final CurrentUser currentUser;
 
-    public OnboardingPresenter(OnboardingView view) {
+    // Only constructor uses dependency injection
+    public OnboardingPresenter(OnboardingView view, AuthRepository authRepository, CurrentUser currentUser) {
         this.view = view;
-        this.authRepository = AuthRepository.getInstance();
+        this.authRepository = authRepository;
+        this.currentUser = currentUser;
     }
 
     public void onViewCreated() {
-        String role = CurrentUser.getInstance().getRole();
+        String role = currentUser.getRole();
 
         if (role == null) {
-            // This is a critical error state. The user should not be here without a role.
-            // Safest action is to log out and return to the start.
+            // Critical error: user shouldn't be here without a role
             view.navigateToWelcomeAndLogout();
             return;
         }
@@ -34,22 +36,28 @@ public class OnboardingPresenter {
 
     private List<OnboardingStep> buildOnboardingSteps(String role) {
         List<OnboardingStep> steps = new ArrayList<>();
-        steps.add(new OnboardingStep("Welcome to Smart Air!", "This app helps you understand and manage asthma by logging symptoms, practicing inhaler technique, and sharing progress."));
+        steps.add(new OnboardingStep("Welcome to Smart Air!",
+                "This app helps you understand and manage asthma by logging symptoms, practicing inhaler technique, and sharing progress."));
 
         switch (role.toLowerCase()) {
             case "parent":
-                steps.add(new OnboardingStep("Privacy and Sharing", "By default, your child\'s data is private. You can choose to share specific information with a healthcare provider using a secure, one-time invite code."));
-                steps.add(new OnboardingStep("Managing Your Child", "You can add multiple children, view their progress dashboards, set up their action plans, and receive important alerts."));
+                steps.add(new OnboardingStep("Privacy and Sharing",
+                        "By default, your child's data is private. You can choose to share specific information with a healthcare provider using a secure, one-time invite code."));
+                steps.add(new OnboardingStep("Managing Your Child",
+                        "You can add multiple children, view their progress dashboards, set up their action plans, and receive important alerts."));
                 break;
             case "provider":
-                steps.add(new OnboardingStep("Read-Only Access", "You can only view information that a parent has explicitly shared with you. This access can be changed or revoked by the parent at any time."));
+                steps.add(new OnboardingStep("Read-Only Access",
+                        "You can only view information that a parent has explicitly shared with you. This access can be changed or revoked by the parent at any time."));
                 break;
             case "child":
-                steps.add(new OnboardingStep("Rescue vs. Controller", "A rescue inhaler is for when you feel symptoms now. A controller medicine is taken every day to help prevent symptoms."));
+                steps.add(new OnboardingStep("Rescue vs. Controller",
+                        "A rescue inhaler is for when you feel symptoms now. A controller medicine is taken every day to help prevent symptoms."));
                 break;
         }
 
-        steps.add(new OnboardingStep("Glossary", "For more details on terms like \"PEF\" or \"Triggers\", you can visit the glossary in the side menu at any time."));
+        steps.add(new OnboardingStep("Glossary",
+                "For more details on terms like \"PEF\" or \"Triggers\", you can visit the glossary in the side menu at any time."));
 
         return steps;
     }

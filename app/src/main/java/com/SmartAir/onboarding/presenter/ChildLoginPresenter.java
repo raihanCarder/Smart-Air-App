@@ -9,22 +9,26 @@ public class ChildLoginPresenter {
     private final ChildLoginView view;
     private final AuthRepository authRepository;
 
-    public ChildLoginPresenter(ChildLoginView view) {
+    // Constructor requires injection of AuthRepository
+    public ChildLoginPresenter(ChildLoginView view, AuthRepository authRepository) {
         this.view = view;
-        this.authRepository = AuthRepository.getInstance();
+        this.authRepository = authRepository;
     }
 
     public void onLoginClicked(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             view.setLoginError("Username and password cannot be empty");
             return;
         }
 
+        username = username.trim();
+        password = password.trim();
+
         authRepository.signInChild(username, password, new AuthRepository.AuthCallback() {
             @Override
             public void onSuccess() {
-                // Check if user has completed onboarding
-                if (CurrentUser.getInstance().getUserProfile() != null && CurrentUser.getInstance().getUserProfile().isHasCompletedOnboarding()) {
+                if (CurrentUser.getInstance().getUserProfile() != null &&
+                        CurrentUser.getInstance().getUserProfile().isHasCompletedOnboarding()) {
                     view.navigateToChildHome();
                 } else {
                     view.navigateToOnboarding();

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Group;
 
 import com.SmartAir.R;
+import com.SmartAir.onboarding.model.AuthRepository;
 import com.SmartAir.onboarding.model.CurrentUser;
 import com.SmartAir.onboarding.presenter.LoginPresenter;
 import com.google.android.material.snackbar.Snackbar;
@@ -27,7 +28,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        presenter = new LoginPresenter(this);
+        // Inject the singleton repository
+        presenter = new LoginPresenter(this, AuthRepository.getInstance());
 
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             startActivity(new Intent(this, PasswordResetActivity.class));
         });
     }
+
 
     @Override
     public void setLoginError(String message) {

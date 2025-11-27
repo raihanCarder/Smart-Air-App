@@ -2,6 +2,7 @@ package com.SmartAir.onboarding.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,6 +30,10 @@ public class ProviderHomeActivity extends AppCompatActivity implements Navigatio
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Ensure the correct menu items are visible for providers
+        Menu navMenu = navigationView.getMenu();
+        navMenu.findItem(R.id.nav_child_login).setVisible(false);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
