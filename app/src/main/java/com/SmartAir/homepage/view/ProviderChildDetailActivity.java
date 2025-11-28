@@ -63,13 +63,15 @@ public class ProviderChildDetailActivity extends AppCompatActivity {
                 childNameTextView.setText(child.getDisplayName() + "'s Shared Data");
 
                 List<String> sharedItems = new ArrayList<>();
-                for (Map.Entry<String, Boolean> entry : child.getSharingSettings().entrySet()) {
-                    if (entry.getValue()) { // If the sharing setting is true
-                        sharedItems.add(entry.getKey());
+                if (child.getSharingSettings() != null) {
+                    for (Map.Entry<String, Boolean> entry : child.getSharingSettings().entrySet()) {
+                        if (entry.getValue()) { // If the sharing setting is true
+                            sharedItems.add(entry.getKey());
+                        }
                     }
                 }
 
-                SharedDataAdapter adapter = new SharedDataAdapter(sharedItems);
+                ProviderSharedDataAdapter adapter = new ProviderSharedDataAdapter(sharedItems);
                 sharedDataRecyclerView.setAdapter(adapter);
             }
 

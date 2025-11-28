@@ -11,17 +11,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.SmartAir.ParentLink.view.ManageChildrenActivity;
 import com.SmartAir.R;
 import com.SmartAir.onboarding.model.AuthRepository;
+import com.SmartAir.onboarding.model.ChildUser;
 import com.SmartAir.onboarding.view.SelectChildLoginActivity;
 import com.SmartAir.onboarding.view.WelcomeActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.ListenerRegistration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParentHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private RecyclerView parentDashboardRecyclerView;
+    private ParentDashboardAdapter adapter;
+    private AuthRepository authRepository;
+    private ListenerRegistration childrenListener;
+    private List<ChildUser> childrenList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,14 @@ public class ParentHomeActivity extends AppCompatActivity implements NavigationV
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        parentDashboardRecyclerView = findViewById(R.id.parent_dashboard_recycler_view);
+        parentDashboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new ParentDashboardAdapter(childrenList);
+        parentDashboardRecyclerView.setAdapter(adapter);
+
+        authRepository = AuthRepository.getInstance();
 
         // Setup Menu
         Menu navMenu = navigationView.getMenu();
@@ -53,6 +73,36 @@ public class ParentHomeActivity extends AppCompatActivity implements NavigationV
                 } else {
                     finish();
                 }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listenForChildrenUpdates();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (childrenListener != null) {
+            childrenListener.remove();
+        }
+    }
+
+    private void listenForChildrenUpdates() {
+        childrenListener = authRepository.listenForChildrenForParent(authRepository.getCurrentFirebaseUser().getUid(), new AuthRepository.ChildrenCallback() {
+            @Override
+            public void onSuccess(List<ChildUser> children) {
+                childrenList.clear();
+                childrenList.addAll(children);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Handle error
             }
         });
     }
