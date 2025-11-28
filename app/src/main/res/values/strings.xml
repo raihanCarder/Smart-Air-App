@@ -1,4 +1,5 @@
 <resources>
+    <!-- App -->
     <string name="app_name">SmartAir</string>
     <string name="back">Back</string>
     <string name="welcome_message">Welcome to Smart Air!</string>
@@ -8,6 +9,7 @@
     <string name="provider">Provider</string>
     <string name="child">Child</string>
 
+    <!-- Option arrays -->
     <string-array name="options_array">
         <item>Option 1</item>
         <item>Option 2</item>
@@ -25,6 +27,13 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="dont_have_account">Don\'t have an account? <b>Sign up</b></string>
     <string name="already_have_account">Already have an account? <b>Login</b></string>
+
+    <!-- Edit Child Strings -->
+    <string name="child_name_hint">Child\'s Name</string>
+    <string name="child_age_hint">Child\'s Age</string>
+    <string name="child_dob_hint">Date of Birth (YYYY-MM-DD)</string>
+    <string name="optional_notes_hint">Optional Notes</string>
+    <string name="save_changes_button">Save Changes</string>
 
     <!-- Navigation Drawer Strings -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

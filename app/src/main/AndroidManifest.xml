@@ -65,6 +65,7 @@
         <activity android:name=".ParentLink.view.ManageChildrenActivity" android:exported="false" />
         <activity android:name=".ParentLink.view.SharingSettingsActivity" android:exported="false" />
         <activity android:name=".ParentLink.view.AddChildActivity" android:exported="false" />
+        <activity android:name=".ParentLink.view.EditChildActivity" android:exported="false" />
 
         <!-- Parent dashboard screens -->
         <activity android:name=".ParentDashboard.view.ParentDashboardActivity" android:exported="false" />

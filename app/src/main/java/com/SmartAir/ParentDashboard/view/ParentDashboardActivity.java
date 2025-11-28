@@ -159,6 +159,13 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
     @SuppressLint("SetTextI18n")
     protected void getUserChildren(ArrayAdapter<String> adapter, List<String> childList, List<String> childIdList){
         Log.i("DEBUG", "Get Children");
+        String uid = CurrentUser.getInstance().getUid();
+
+        if (uid == null) {
+            Log.e("ERROR", "User not logged in");
+            Toast.makeText(this, "Error: User not logged in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Log.i("DEBUG", "Get Children started");
 
@@ -166,7 +173,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
         if (childList.size() > 1) childList.subList(1, childList.size()).clear();
         if (childIdList.size() > 1) childIdList.subList(1, childIdList.size()).clear();
 
-        db.collection("Users").document(CurrentUser.getInstance().getUid())
+        db.collection("Users").document(uid)
                 .get().addOnSuccessListener(documentSnapshot ->{
 
                     List<String> rawIdList = new ArrayList<>();
