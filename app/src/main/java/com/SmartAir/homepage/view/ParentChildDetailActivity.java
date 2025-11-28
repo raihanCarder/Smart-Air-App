@@ -25,7 +25,6 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
     private AuthRepository authRepository;
     private String childId;
-    private ChildUser child;
     private Button generateInviteCodeButton;
     private Button revokeInviteCodeButton;
     private Button copyInviteCodeButton;
@@ -98,8 +97,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     private void loadChildDetails() {
         authRepository.fetchChildProfile(childId, new AuthRepository.ChildProfileCallback() {
             @Override
-            public void onSuccess(ChildUser fetchedChild) {
-                child = fetchedChild;
+            public void onSuccess(ChildUser child) {
                 ((TextView) findViewById(R.id.child_name_header)).setText(getString(R.string.child_dashboard_title, child.getDisplayName()));
                 updateInviteCodeUI();
             }
@@ -134,20 +132,29 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     }
 
     private void generateInviteCode() {
-        if (child == null) return;
-        authRepository.generateInviteCode(child.getUid(), new AuthRepository.InviteCodeCallback() {
+        authRepository.fetchChildProfile(childId, new AuthRepository.ChildProfileCallback() {
             @Override
-            public void onSuccess(String code) {
-                activeInviteCode = code;
-                inviteCodeDisplay.setText(code);
-                generateInviteCodeButton.setVisibility(View.GONE);
-                inviteCodeLayout.setVisibility(View.VISIBLE);
-                revokeInviteCodeButton.setVisibility(View.VISIBLE);
+            public void onSuccess(ChildUser child) {
+                authRepository.generateInviteCode(child.getUid(), new AuthRepository.InviteCodeCallback() {
+                    @Override
+                    public void onSuccess(String code) {
+                        activeInviteCode = code;
+                        inviteCodeDisplay.setText(code);
+                        generateInviteCodeButton.setVisibility(View.GONE);
+                        inviteCodeLayout.setVisibility(View.VISIBLE);
+                        revokeInviteCodeButton.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Toast.makeText(ParentChildDetailActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                Toast.makeText(ParentChildDetailActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ParentChildDetailActivity.this, "Failed to generate invite code: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

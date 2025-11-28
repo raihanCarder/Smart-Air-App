@@ -96,8 +96,13 @@ public class ManageChildrenActivity extends AppCompatActivity implements ManageC
     @Override
     public void displayChildren(List<ChildUser> children) {
         // Update existing adapter's data instead of creating a new one
+        int oldSize = adapter.getItemCount();
         adapter.setChildren(children);
-        adapter.notifyDataSetChanged();
+        int newSize = adapter.getItemCount();
+        if (oldSize > newSize) {
+            adapter.notifyItemRangeRemoved(newSize, oldSize - newSize);
+        }
+        adapter.notifyItemRangeChanged(0, newSize);
     }
 
     @Override
