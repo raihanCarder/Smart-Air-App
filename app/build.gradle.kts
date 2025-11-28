@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
+    implementation(libs.cardview)
 
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
