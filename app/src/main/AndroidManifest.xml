@@ -68,7 +68,10 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.RoleSelectionActivity"
+            android:name=".onboarding.view.RoleSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Badges.view.BadgesActivity"
             android:exported="false" />
     </application>
 

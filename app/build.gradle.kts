@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
+    implementation(libs.cardview)
 
     // JUnit and Mockito - Upgraded for Java 21 compatibility
     testImplementation(libs.junit)
