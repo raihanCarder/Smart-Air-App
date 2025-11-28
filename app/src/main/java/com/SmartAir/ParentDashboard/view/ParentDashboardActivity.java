@@ -17,6 +17,9 @@ import com.SmartAir.ParentDashboard.model.PefLogsModel;
 import com.SmartAir.ParentDashboard.model.RescueLogModel;
 import com.SmartAir.ParentDashboard.presenter.ParentDashboardPresenter;
 import com.SmartAir.R;
+import com.SmartAir.onboarding.model.BaseUser;
+import com.SmartAir.onboarding.model.CurrentUser;
+import com.SmartAir.onboarding.model.ParentUser;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,13 +44,27 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
     private static String TESTUSERID = "voS60SSmSSZL9j3XGKyhHNSs4LR2";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    BaseUser user =  CurrentUser.getInstance().getUserProfile();
 
     private ParentDashboardPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_dashboard);
+        FirebaseApp.initializeApp(this);
+        
+        List<String> childids_fromuser;
+        //grabbing userid innit
+
+        if (user instanceof ParentUser){
+            childids_fromuser = ((ParentUser) user).getChildrenIds();
+
+        }
+
+
+        
 
         // naving to schedule innit
         Button schedule_button = findViewById(R.id.radio_buttons);
@@ -65,7 +82,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
 
 
-        FirebaseApp.initializeApp(this);
+        
 
 
         Log.i("TAG", "CREATED PAGE");
@@ -149,7 +166,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
         if (childList.size() > 1) childList.subList(1, childList.size()).clear();
         if (childIdList.size() > 1) childIdList.subList(1, childIdList.size()).clear();
 
-        db.collection("Users").document("6DD7WbduSwQ1rdNOmdlGU15JOsp2")
+        db.collection("Users").document(CurrentUser.getInstance().getUid())
                 .get().addOnSuccessListener(documentSnapshot ->{
 
                     List<String> rawIdList = new ArrayList<>();
