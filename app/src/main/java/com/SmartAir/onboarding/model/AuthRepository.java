@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
@@ -98,6 +99,29 @@ public class AuthRepository {
     }
 
     // ------------------ CHILD FETCH METHODS ------------------
+
+    public ListenerRegistration listenForChildrenForParent(String parentId, @NonNull final ChildrenCallback callback) {
+        return firestore.collection("Users")
+                .whereEqualTo("parentId", parentId)
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        callback.onFailure("Listen failed: " + e.getMessage());
+                        return;
+                    }
+
+                    if (snapshots != null) {
+                        List<ChildUser> children = new ArrayList<>();
+                        for (DocumentSnapshot document : snapshots.getDocuments()) {
+                            ChildUser child = document.toObject(ChildUser.class);
+                            if (child != null) {
+                                child.setUid(document.getId());
+                                children.add(child);
+                            }
+                        }
+                        callback.onSuccess(children);
+                    }
+                });
+    }
 
     public void fetchChildrenForParent(String parentId, @NonNull final ChildrenCallback callback) {
         firestore.collection("Users")
