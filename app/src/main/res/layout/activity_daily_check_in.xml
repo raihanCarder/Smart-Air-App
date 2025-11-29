@@ -221,6 +221,5 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/roleText"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:background="@drawable/spinner_design"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,8 @@
 package com.SmartAir.dailycheckin.presenter;
 import com.SmartAir.dailycheckin.DailyCheckInContract;
 import com.SmartAir.dailycheckin.model.DailyCheckInRepository;
-import com.SmartAir.onboarding.model.CurrentUser;
+import com.SmartAir.dailycheckin.presenter.Date;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class DailyCheckInPresenter implements DailyCheckInContract.Presenter {
@@ -21,7 +19,7 @@ public class DailyCheckInPresenter implements DailyCheckInContract.Presenter {
                                    Boolean isNightWalking, Boolean hasLimitedAbility,
                                    Boolean isSick, List<String> triggers)
     {
-        String date = getCurrentDate();
+        String date = Date.getCurrentDate();
 
         DailyCheckInDataModel data = new DailyCheckInDataModel(date, role, childName, parentId,
                 isNightWalking, hasLimitedAbility, isSick, triggers);
@@ -38,9 +36,20 @@ public class DailyCheckInPresenter implements DailyCheckInContract.Presenter {
         });
     }
 
-    public String getCurrentDate() {
-        Date now = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(now);
+    @Override
+    public void loadChildren(String parentId) {
+        repository.loadChildren(parentId, new DailyCheckInContract.Repository.LoadChildrenCallback()
+        {
+            @Override
+            public void onChildrenLoaded(List<String> childNames) {
+                view.showSpinnerData(childNames);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                view.showError(e.getMessage());
+            }
+        });
     }
+
 }

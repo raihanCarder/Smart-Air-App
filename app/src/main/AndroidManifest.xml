@@ -58,6 +58,9 @@
             android:name=".onboarding.view.ChildHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".dailycheckin.view.DailyCheckInActivity"
+            android:exported="false" />
+        <activity
             android:name=".onboarding.view.AddChildActivity"
             android:exported="false" />
         <activity

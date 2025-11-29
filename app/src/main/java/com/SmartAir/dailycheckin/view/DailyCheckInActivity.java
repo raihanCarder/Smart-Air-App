@@ -13,8 +13,10 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.chip.Chip;
 import com.SmartAir.onboarding.model.CurrentUser;
 import android.os.Handler;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,11 +57,12 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         childSelector = findViewById(R.id.childSpinner);
 
         if (user.getRole().equals("parent")){
-            // TODO: implement parent specialized view
-            // TODO: Parent can choose which child to submit daily activity
+            // Parent view
             roleText.setText("Select Child:");
+            presenter.loadChildren(user.getUid());
         }
         else if (user.getRole().equals("child")){
+            // Child view
             roleText.setText("Welcome, " + user.getUserProfile().getDisplayName() + "!");
             childSelector.setVisibility(View.GONE);
         }
@@ -71,16 +74,15 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         exitBtn.setOnClickListener(v ->{
             finish();
         });
+
     }
 
     public void SubmitDataToPresenter(){
         boolean isNightWalking, hasLimitedAbility, isSick;
         String content;
         String role;
-        String childName = "failedToGetName";
-        String parentId = "failedToGetParentId";
-
-        // TODO: Make functionality to get childName from spinner when parent
+        String childName = "failedToGetName"; // safety net
+        String parentId = "failedToGetParentId"; // safety net
 
         if (user.getRole().equals("child")){
             childName = user.getUserProfile().getDisplayName();
@@ -89,7 +91,14 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
             }
         }
         else if (user.getRole().equals("parent")){
-
+            childName = childSelector.getSelectedItem().toString();
+            if (user.getUserProfile() instanceof ParentUser) {
+                parentId = user.getUid();
+            }
+        }
+        else{
+            Toast.makeText(this, "ERROR: Cannot identify user role.",
+                    Toast.LENGTH_SHORT).show();
         }
 
         isNightWalking = nightWakingCheckBox.isChecked();
@@ -131,6 +140,31 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         Toast.makeText(this, "Failed to save! Returning to Dashboard...",
                 Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> finish(), 1500);
+    }
+
+    @Override
+    public void showSpinnerData(List<String> childrenNames) {
+        if (childrenNames.isEmpty()) {
+            childrenNames.add("None Remaining for today");
+            Toast.makeText(this, "All Children have Submitted their Daily-Check-Ins!",
+                    Toast.LENGTH_SHORT).show();
+            submitBtn.setEnabled(false); // disable submitting data
+        } else {
+            childSelector.setEnabled(true);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                R.layout.spinner_row,
+                childrenNames
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_row);
+        childSelector.setAdapter(adapter);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }
