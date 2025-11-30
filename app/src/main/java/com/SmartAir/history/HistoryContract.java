@@ -6,6 +6,10 @@ import com.SmartAir.history.presenter.HistoryItem;
 import java.util.List;
 
 public interface HistoryContract {
+    /**
+     * Contract interfaces defining the communication between the View, Presenter, Repository,
+     * Adapter, and FilterDialog within the History feature.
+     */
     interface View {
         public abstract void showHistory(List<HistoryItem> items);
         public abstract void showLoadError(String message);
@@ -13,8 +17,13 @@ public interface HistoryContract {
         public abstract void hideLoading();
     }
 
+    interface FilterDialog{
+        public abstract void show();
+    }
+
     interface Presenter{
         public abstract void loadData(FilterDataModel filter);
+        public abstract List<HistoryItem> getLastQuery();
     }
 
     interface Repository{

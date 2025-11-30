@@ -3,6 +3,11 @@ package com.SmartAir.history.presenter;
 import java.util.List;
 
 public class HistoryItem {
+    /**
+     * Data model representing a single Daily Check-In record retrieved from
+     * Firebase. This model is used in the HistoryRepository, HistoryPresenter, HistoryActivity,
+     * and HistoryAdapter to transfer and display history information.
+     */
     private final String date;
     private final String entryAuthor;
     private final String childName;

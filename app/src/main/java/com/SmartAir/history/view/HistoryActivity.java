@@ -27,14 +27,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.text.TextUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 public class HistoryActivity extends AppCompatActivity  implements HistoryContract.View{
+    /**
+     * Main view for the History Feature of R5. Displays filtered daily check-ins and contains
+     * the filter button and export to PDF button to meet requirements. This Activity communicates
+     * with HistoryPresenter to load data using the MVP architecture.
+     */
     private RecyclerView recyclerView;
     private HistoryContract.Presenter presenter;
     private HistoryContract.Adapter adapter;
     private ImageButton exitBtn;
     private Button filterBtn;
+    private Button exportPdfBtn;
     private CircularProgressIndicator loading;
+    private FilterDialog filterDialog;
 
     private FilterDataModel filter;
 
@@ -47,15 +63,28 @@ public class HistoryActivity extends AppCompatActivity  implements HistoryContra
         filterBtn = findViewById(R.id.filterBtn);
         exitBtn = findViewById(R.id.historyBtnClose);
         recyclerView = findViewById(R.id.historyRecycler);
+        exportPdfBtn = findViewById(R.id.exportPdfBtn);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter();
         recyclerView.setAdapter((RecyclerView.Adapter) adapter);
 
-        filterBtn.setOnClickListener(v-> showFilterDialog());
         exitBtn.setOnClickListener(v-> finish());
+        exportPdfBtn.setOnClickListener(v->{
+            List<HistoryItem> items = presenter.getLastQuery();
+            if (items == null || items.isEmpty()){
+                Toast.makeText(this, "Query Empty, No data to export.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                exportHistoryToPdf(items);
+            }
+        });
 
         presenter = new HistoryPresenter(this);
+
+        filterDialog = new FilterDialog(this, presenter);
+        filterBtn.setOnClickListener(v-> filterDialog.show());
+
         filter = new FilterDataModel(null,null,null,
                 null, null, new ArrayList<String>());
 
@@ -64,17 +93,17 @@ public class HistoryActivity extends AppCompatActivity  implements HistoryContra
 
     @Override
     public void showHistory(List<HistoryItem> items){
-
-        if (items.isEmpty()){
+        if (items.isEmpty()) {
             Toast.makeText(this, "No Items Match this Query", Toast.LENGTH_SHORT).show();
         }
-
         adapter.setItems(items);
     }
+
     @Override
     public void showLoadError(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void showLoading() {
@@ -88,100 +117,6 @@ public class HistoryActivity extends AppCompatActivity  implements HistoryContra
         loading.setVisibility(View.GONE);
     }
 
-    private void showFilterDialog() {
-
-        // TODO: Make so you can choose child to filter by
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View dialogView = inflater.inflate(R.layout.dialog_history_filter, null);
-
-        ChipGroup chipGroupNightWaking = dialogView.findViewById(R.id.chipGroupNightWaking);
-        ChipGroup chipGroupLimitedAbility = dialogView.findViewById(R.id.chipGroupLimitedAbility);
-        ChipGroup chipGroupSick = dialogView.findViewById(R.id.chipGroupSick);
-
-        EditText editStartDate = dialogView.findViewById(R.id.editStartDate);
-        EditText editEndDate = dialogView.findViewById(R.id.editEndDate);
-
-        editStartDate.setOnClickListener(v -> showDatePicker(editStartDate));
-        editEndDate.setOnClickListener(v -> showDatePicker(editEndDate));
-        ChipGroup chipGroupTriggers = dialogView.findViewById(R.id.chipGroupTriggers);
-
-
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setPositiveButton("Apply Filter", (d, which) -> {
-
-                    int id = chipGroupNightWaking.getCheckedChipId();
-                    Boolean nightWaking = null;
-                    if (id == R.id.chipNightWakingTrue)  nightWaking = Boolean.TRUE;
-                    else if (id == R.id.chipNightWakingFalse) nightWaking = Boolean.FALSE;
-
-                    int id2 = chipGroupLimitedAbility.getCheckedChipId();
-                    Boolean limitedAbility = null;
-                    if (id2 == R.id.chipLimitedAbilityTrue)  limitedAbility = Boolean.TRUE;
-                    else if (id2 == R.id.chipLimitedAbilityFalse) limitedAbility = Boolean.FALSE;
-
-                    int id3 = chipGroupSick.getCheckedChipId();
-                    Boolean sick = null;
-                    if (id3 == R.id.chipSickTrue)  sick = Boolean.TRUE;
-                    else if (id3 == R.id.chipSickFalse) sick = Boolean.FALSE;
-
-                    String startDate = editStartDate.getText().toString().trim();
-                    String endDate = editEndDate.getText().toString().trim();
-                    if (startDate.isEmpty()) startDate = null;
-                    if (endDate.isEmpty()) endDate = null;
-
-                    List<String> triggers = new ArrayList<>();
-                    for (int i = 0; i < chipGroupTriggers.getChildCount(); i++) {
-                        View child = chipGroupTriggers.getChildAt(i);
-
-                        if (child instanceof Chip) {
-                            Chip chip = (Chip) child;
-
-                            if (chip.isChecked()) {
-                                triggers.add(chip.getText().toString());
-                            }
-                        }
-                    }
-
-                    filter = new FilterDataModel(
-                            nightWaking,
-                            limitedAbility,
-                            sick,
-                            startDate,
-                            endDate,
-                            triggers
-                    );
-
-                    presenter.loadData(filter);
-
-                    if (filter.isInvalidInput()){
-                        Toast.makeText(this, "Invalid date Input, Your input was " +
-                                        "changed to meet requirements",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", (d, which) -> {
-                    d.dismiss();
-                })
-                .create();
-        dialog.show();
-    }
-
-    private void showDatePicker(EditText targetField) {
-        LocalDate today = LocalDate.now();
-
-        DatePickerDialog picker = new DatePickerDialog(
-                this,
-                (view, year, month, day) -> {
-                    String formatted = String.format("%04d-%02d-%02d", year, month + 1, day);
-                    targetField.setText(formatted);
-                },
-                today.getYear(),
-                today.getMonthValue() - 1,
-                today.getDayOfMonth()
-        );
-
-        picker.show();
+    private void exportHistoryToPdf(List<HistoryItem> items){
     }
 }
