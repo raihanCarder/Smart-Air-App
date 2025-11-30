@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.SmartAir.Badges.view.BadgesActivity;
 import com.SmartAir.ChildDashboard.data.ChildDashboardRepository;
 import com.SmartAir.ChildDashboard.presenter.ChildDashboardPresenter;
+import com.SmartAir.Inventory.view.InventoryActivity;
 import com.SmartAir.R;
 import com.SmartAir.onboarding.model.AuthRepository;
 import com.SmartAir.onboarding.model.ChildUser;
@@ -216,7 +217,8 @@ public class ChildDashboardActivity extends AppCompatActivity implements ChildDa
 
     @Override
     public void showUpdateInventory() {
-        // TODO: wire to update inventory page
+        Intent intent = new Intent(ChildDashboardActivity.this, InventoryActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -95,4 +95,11 @@
 </resources>
     <string name="enter_your_pef_number">enter_your_pef_number</string>
     <string name="enter_pre_med_info_optional">Enter pre Med Info (Optional)</string>
+
+    <!-- Inventory Strings -->
+    <string-array name="inhaler_types">
+        <item>Select inhaler type</item>
+        <item>Controller inhaler</item>
+        <item>Rescue inhaler</item>
+    </string-array>
 </resources>
