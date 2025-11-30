@@ -102,5 +102,20 @@ public class DailyCheckInRepository implements DailyCheckInContract.Repository {
                 .addOnFailureListener(callback::onError);
     }
 
+    @Override
+    public void checkIfCanSubmit(String childName,
+                                 DailyCheckInContract.Repository.SubmitValidityCallback callback){
 
+        String today = Date.getCurrentDate();
+
+        db.collection("daily_check_ins")
+                .whereEqualTo("Date", today)
+                .whereEqualTo("Child", childName)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    boolean entriesExist = !snapshot.isEmpty();
+                    callback.onValidity(entriesExist);
+                })
+                .addOnFailureListener(callback::onNotValid);
+    }
 }

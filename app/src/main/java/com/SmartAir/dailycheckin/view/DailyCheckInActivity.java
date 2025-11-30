@@ -1,6 +1,7 @@
 package com.SmartAir.dailycheckin.view;
 import com.SmartAir.R;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.View;
 import android.widget.Button;
@@ -43,8 +44,7 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_check_in);
 
-        // get current user
-        user = CurrentUser.getInstance();
+        user = CurrentUser.getInstance();   // get current user
         presenter = new DailyCheckInPresenter(this);
 
         exitBtn = findViewById(R.id.dailyCheckInExitBtn);
@@ -65,6 +65,16 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
             // Child view
             roleText.setText("Welcome, " + user.getUserProfile().getDisplayName() + "!");
             childSelector.setVisibility(View.GONE);
+
+            // change layout to look better for child
+            ConstraintLayout.LayoutParams params =
+                    (ConstraintLayout.LayoutParams) nightWakingCheckBox.getLayoutParams();
+            int marginPx = (int) (100 * getResources().getDisplayMetrics().density);
+            params.topMargin = marginPx;
+            nightWakingCheckBox.setLayoutParams(params);
+
+            // check if child has already submit daily check-in for today
+            presenter.checkIfCanSubmit(user.getUserProfile().getDisplayName());
         }
 
         submitBtn.setOnClickListener(v -> {
@@ -165,6 +175,14 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showAlreadySubmitted(){
+        submitBtn.setEnabled(false);
+        Toast.makeText(this, "Already Submit Daily-Check-in! Returning Home....",
+                Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(() -> finish(), 2000);
     }
 
 }

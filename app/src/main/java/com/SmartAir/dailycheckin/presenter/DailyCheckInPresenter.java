@@ -52,4 +52,21 @@ public class DailyCheckInPresenter implements DailyCheckInContract.Presenter {
         });
     }
 
+    @Override
+    public void checkIfCanSubmit(String childName){
+        repository.checkIfCanSubmit(childName,
+                new DailyCheckInContract.Repository.SubmitValidityCallback(){
+            @Override
+            public void onValidity(Boolean hasEntries){
+                if (hasEntries){
+                    view.showAlreadySubmitted();
+                }
+            }
+
+            public void onNotValid(Exception e){
+                view.showError("ERROR: child may have already complete Daily-check-in.");
+            }
+        });
+    }
+
 }

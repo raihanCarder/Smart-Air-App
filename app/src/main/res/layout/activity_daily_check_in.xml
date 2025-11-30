@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dailyCheckInTitle"
         android:layout_width="240dp"
         android:layout_height="79dp"
         android:layout_marginStart="75dp"
@@ -37,11 +37,11 @@
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginStart="31dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="140dp"
         android:text="Did your Asthma wake you up last night?"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dailyCheckInTitle" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/dailyCheckInTriggerChipGroup"
@@ -208,18 +208,16 @@
         android:textStyle="bold"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dailyCheckInTitle" />
 
     <Spinner
         android:id="@+id/childSpinner"
-        android:layout_width="160dp"
+        android:layout_width="307dp"
         android:layout_height="48dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="38dp"
+        android:layout_marginStart="31dp"
         android:gravity="center"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/roleText"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roleText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
