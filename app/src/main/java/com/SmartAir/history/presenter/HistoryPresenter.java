@@ -29,7 +29,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
             public void onFailure(Exception e) {
                 view.hideLoading();
                 e.printStackTrace();
-                view.showLoadError("Error fetching data");
+                view.showLoadError("Failed to Fetch Data, Please Try Again Later.");
             }
         });
     }

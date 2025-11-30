@@ -8,6 +8,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.SmartAir.onboarding.model.CurrentUser;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,13 @@ public class HistoryRepository implements HistoryContract.Repository {
     }
     @Override
     public void getData(FilterDataModel filter, LoadCallback callback){
-        Query query = ref;
+        CurrentUser user = CurrentUser.getInstance();
+        String parentId = user.getUid();
+
+        Query query = ref.whereEqualTo("parentId", parentId);;
         Query filteredQuery = filterQuery(query, filter);
         returnData(filteredQuery, callback);
+        System.out.println("HistoryRepository parentId = " + parentId);
     }
 
     private Query filterQuery(Query query, FilterDataModel filter){

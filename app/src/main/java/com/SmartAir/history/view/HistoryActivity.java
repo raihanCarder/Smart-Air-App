@@ -68,8 +68,7 @@ public class HistoryActivity extends AppCompatActivity  implements HistoryContra
     }
     @Override
     public void showLoadError(String message){
-        Toast.makeText(this, "Failed to Fetch Data, Please Try Again Later.",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
