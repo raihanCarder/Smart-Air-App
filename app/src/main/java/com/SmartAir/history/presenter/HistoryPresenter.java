@@ -8,6 +8,7 @@ import java.util.List;
 public class HistoryPresenter implements HistoryContract.Presenter {
     private final HistoryContract.View view;
     private final HistoryContract.Repository repository;
+    private List<HistoryItem> lastQuery;
 
     public HistoryPresenter(HistoryContract.View view){
         this.view = view;
@@ -20,6 +21,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
             @Override
             public void onSuccess(List<HistoryItem> items) {
                 view.hideLoading();
+                lastQuery = items;
                 view.showHistory(items);
             }
 
@@ -30,5 +32,9 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 view.showLoadError("Error fetching data");
             }
         });
+    }
+
+    public List<HistoryItem> getLastQuery(){
+        return lastQuery;
     }
 }
