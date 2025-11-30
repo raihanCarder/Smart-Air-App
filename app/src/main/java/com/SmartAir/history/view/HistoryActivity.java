@@ -64,6 +64,11 @@ public class HistoryActivity extends AppCompatActivity  implements HistoryContra
 
     @Override
     public void showHistory(List<HistoryItem> items){
+
+        if (items.isEmpty()){
+            Toast.makeText(this, "No Items Match this Query", Toast.LENGTH_SHORT).show();
+        }
+
         adapter.setItems(items);
     }
     @Override
