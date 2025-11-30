@@ -62,7 +62,10 @@
             android:exported="false" />
         <activity
             android:name=".ChildDashboard.view.ChildDashboardActivity"
-            android:exported="true"/>
+            android:exported="false"/>
+        <activity
+            android:name=".Inventory.view.InventoryActivity"
+            android:exported="false"/>
         <activity
             android:name=".Badges.view.BadgesActivity"
             android:exported="false">

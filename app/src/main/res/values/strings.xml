@@ -27,4 +27,11 @@
     <!-- Navigation Drawer Strings -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Inventory Strings -->
+    <string-array name="inhaler_types">
+        <item>Select inhaler type</item>
+        <item>Controller inhaler</item>
+        <item>Rescue inhaler</item>
+    </string-array>
 </resources>
