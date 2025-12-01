@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.SmartAir"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.SmartAir"
@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
     implementation(libs.cardview)
+    implementation(libs.media3.ui)
+    implementation(libs.media3.exoplayer)
 
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)

@@ -154,6 +154,9 @@
             android:name=".LogRescue.view.LogRescueActivity"
             android:exported="false"/>
         <activity
+            android:name=".TechniqueHelper.view.TechniqueHelperActivity"
+            android:exported="false"/>
+        <activity
             android:name=".glossary.view.GlossaryActivity"
             android:exported="false"/>
         <activity
