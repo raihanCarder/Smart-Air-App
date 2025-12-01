@@ -21,12 +21,13 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main view for the History Feature of R5. Displays filtered daily check-ins and contains
+ * the filter button and export to PDF button to meet requirements. This Activity communicates
+ * with HistoryPresenter to load data using the MVP architecture.
+ */
 public class HistoryActivity extends AppCompatActivity  implements HistoryContract.View{
-    /**
-     * Main view for the History Feature of R5. Displays filtered daily check-ins and contains
-     * the filter button and export to PDF button to meet requirements. This Activity communicates
-     * with HistoryPresenter to load data using the MVP architecture.
-     */
+
     private RecyclerView recyclerView;
     private HistoryContract.Presenter presenter;
     private HistoryContract.Adapter adapter;

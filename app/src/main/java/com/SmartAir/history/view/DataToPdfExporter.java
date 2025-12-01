@@ -17,11 +17,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * Utility class responsible for exporting HistoryItem data into a PDF file.
+ */
 public class DataToPdfExporter implements HistoryContract.Export{
-    /**
-     * Utility class responsible for exporting HistoryItem data into a PDF file.
-     */
+
     private Context context;
     public DataToPdfExporter(Context context){
         this.context = context;

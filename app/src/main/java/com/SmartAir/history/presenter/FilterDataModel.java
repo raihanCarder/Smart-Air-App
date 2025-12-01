@@ -3,13 +3,13 @@ package com.SmartAir.history.presenter;
 import java.time.LocalDate;
 import java.util.List;
 
-
+/**
+ * Data model representing the filter used to query the Daily check-ins recorded in Firebase.
+ * This model is used in HistoryActivity, HistoryPresenter, HistoryRepository, and FilterDialog
+ * to track, update, and apply the filter created by the user in FilterDialog.
+ */
 public class FilterDataModel {
-    /**
-     * Data model representing the filter used to query the Daily check-ins recorded in Firebase.
-     * This model is used in HistoryActivity, HistoryPresenter, HistoryRepository, and FilterDialog
-     * to track, update, and apply the filter created by the user in FilterDialog.
-     */
+
     private Boolean nightWaking;
     private Boolean limitedAbility;
     private Boolean sick;

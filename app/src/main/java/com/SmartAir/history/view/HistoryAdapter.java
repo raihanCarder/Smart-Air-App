@@ -15,11 +15,12 @@ import com.SmartAir.history.presenter.HistoryItem;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Recyclerview adapter used for displaying Daily check-in history items in HistoryActivity.
+ */
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>
         implements HistoryContract.Adapter {
-    /**
-     * Recyclerview adapter used for displaying Daily check-in history items in HistoryActivity.
-     */
+
     private final List<HistoryItem> items = new ArrayList<>();
 
     @Override

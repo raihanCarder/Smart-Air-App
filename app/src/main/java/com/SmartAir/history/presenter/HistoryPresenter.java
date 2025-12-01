@@ -5,13 +5,14 @@ import com.SmartAir.history.model.HistoryRepository;
 
 import java.util.List;
 
+/**
+ * Presenter for the History feature. Acts as the middle layer between the
+ * HistoryActivity (View) and HistoryRepository (data source). Responsible for
+ * requesting data from Firestore (Through HistoryRepository), returning the last filter query
+ * to HistoryActivity, and returning results back to HistoryActivity for display.
+ */
 public class HistoryPresenter implements HistoryContract.Presenter {
-    /**
-     * Presenter for the History feature. Acts as the middle layer between the
-     * HistoryActivity (View) and HistoryRepository (data source). Responsible for
-     * requesting data from Firestore (Through HistoryRepository), returning the last filter query
-     * to HistoryActivity, and returning results back to HistoryActivity for display.
-     */
+
     private final HistoryContract.View view;
     private final HistoryContract.Repository repository;
     private List<HistoryItem> lastQuery;

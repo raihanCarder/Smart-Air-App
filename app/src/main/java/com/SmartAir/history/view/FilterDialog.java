@@ -19,12 +19,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Filter Dialog used in HistoryActivity that lets users filter their history.
+ * This communicates the chosen filter back to HistoryActivity by forwarding filter to
+ * HistoryPresenter then recieving the updated results through a callback.
+ */
 public class FilterDialog implements HistoryContract.FilterDialog{
-    /**
-     * Filter Dialog used in HistoryActivity that lets users filter their history.
-     * This communicates the chosen filter back to HistoryActivity by forwarding filter to
-     * HistoryPresenter then recieving the updated results through a callback.
-     */
+
     private final Context context;
     private final HistoryContract.Presenter presenter;
 

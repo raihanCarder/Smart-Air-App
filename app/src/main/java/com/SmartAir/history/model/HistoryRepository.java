@@ -14,12 +14,13 @@ import com.SmartAir.onboarding.model.CurrentUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository layer for the History feature. Responsible for communicating with database,
+ * applying all filter conditions, and returning the resulting list of HistoryItem
+ * objects to the HistoryPresenter.
+ */
 public class HistoryRepository implements HistoryContract.Repository {
-    /**
-     * Repository layer for the History feature. Responsible for communicating with database,
-     * applying all filter conditions, and returning the resulting list of HistoryItem
-     * objects to the HistoryPresenter.
-     */
+
     private final FirebaseFirestore db;
     private final CollectionReference ref;
 
