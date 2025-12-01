@@ -65,7 +65,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Asthma"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -79,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="A condition that causes long-term inflammation in your airways."
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -95,7 +95,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Rescue inhaler"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -109,7 +109,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Quick-relief medicine for sudden symptoms."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -125,7 +125,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Controller medicine"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -139,7 +139,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Daily prevention medicine that reduces airway swelling."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -155,7 +155,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Peak-flow (PEF)"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -169,7 +169,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="A number the user manually enters to reflect how fast they can blow out."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -185,7 +185,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Personal best (PB)"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -200,7 +200,7 @@
                     android:layout_weight="2"
                     android:text="Highest healthy PEF used to define zones: Green ≥80% PB; Yellow
                     50–79% PB; Red &lt;50% PB."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -216,7 +216,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Triggers"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -230,7 +230,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Things that can set off symptoms (e.g., dust mites, pets, etc)"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -246,7 +246,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Dose count"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -260,7 +260,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Number of puffs/measures taken."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -276,7 +276,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Low canister"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -290,7 +290,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="≤20% remaining."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -306,7 +306,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Low rescue month"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -320,7 +320,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="≤4 rescue days in 30 days."
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -336,7 +336,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="High-quality technique session"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <View
@@ -350,7 +350,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="All technique steps completed with positive feedback"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
