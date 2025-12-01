@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
+    implementation(libs.recyclerview)
 
     // JUnit and Mockito - Upgraded for Java 21 compatibility
     testImplementation(libs.junit)
@@ -57,6 +58,5 @@ dependencies {
 
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     implementation("com.google.android.material:material:1.10.0")
 }
