@@ -35,6 +35,10 @@ public interface HistoryContract {
         public abstract void getData(FilterDataModel filter, LoadCallback callback);
     }
 
+    interface Export{
+        public abstract void exportHistoryToPdf(List<HistoryItem> items);
+    }
+
     interface Adapter {
         public abstract void setItems(List<HistoryItem> newItems);
     }
