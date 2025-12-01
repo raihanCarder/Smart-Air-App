@@ -24,6 +24,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -34,6 +36,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.security.auth.login.LoginException;
 
@@ -45,6 +50,11 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BaseUser user =  CurrentUser.getInstance().getUserProfile();
+
+    String childZone = "Pending";
+
+    AtomicReference<String> childNameRef = new AtomicReference<>("");
+    AtomicReference<String> zoneRef = new AtomicReference<>("");
 
     private ParentDashboardPresenter presenter;
 
@@ -92,23 +102,25 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
         TextView box1 = findViewById(R.id.myText);
         TextView box2 = findViewById(R.id.myText3);
         TextView box3 = findViewById(R.id.myText4);
-        Button pdfbutton = findViewById(R.id.pdfbutton);
+        Button reportBut = findViewById(R.id.btn_generate_report);
+
+        reportBut.setOnClickListener(v -> generateComprehensiveReport(30));
 
 
-        List<ReportGenerationActivity.CheckIn> data = Arrays.asList(
-                new ReportGenerationActivity.CheckIn("2024-11-15", "Red", 4, "Wheezing, Cough", "Had trouble sleeping due to cough."),
-                new ReportGenerationActivity.CheckIn("2024-11-14", "Yellow", 1, "Mild Cough", "Played soccer, used rescue once.")
-                );
-        pdfbutton.setOnClickListener(v -> {
-            View reportContent = ReportGenerationActivity.createMockReportView(this, data);
-
-            File pdfFile = ReportGenerationActivity.generatePdfFromView(this, reportContent, "AsthamaReport");
-
-            if (pdfFile != null) {
-                ReportGenerationActivity.sharePdfFile(this, pdfFile);
-            }
-
-        });
+//        List<ReportGenerationActivity.CheckIn> data = Arrays.asList(
+//                new ReportGenerationActivity.CheckIn("2024-11-15", "Red", 4, "Wheezing, Cough", "Had trouble sleeping due to cough."),
+//                new ReportGenerationActivity.CheckIn("2024-11-14", "Yellow", 1, "Mild Cough", "Played soccer, used rescue once.")
+//                );
+//        pdfbutton.setOnClickListener(v -> {
+//            View reportContent = ReportGenerationActivity.createMockReportView(this, data);
+//
+//            File pdfFile = ReportGenerationActivity.generatePdfFromView(this, reportContent, "AsthamaReport");
+//
+//            if (pdfFile != null) {
+//                ReportGenerationActivity.sharePdfFile(this, pdfFile);
+//            }
+//
+//        });
 
         Spinner spinner = findViewById(R.id.mySpinner);
 
@@ -150,9 +162,109 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
     public void navToPdf () {
 //        View reportContent = ReportGenerationActivity.createMockReportView(this, data);
 
+    }
+
+    private void searchForCheckIns(String childName,
+                                   List<ReportGenerationActivity.DailyLog> reportLogs,
+                                   AtomicInteger tasksCompleted,
+                                   AtomicReference<Integer> reportAdherence,
+                                   AtomicReference<String> childNameRef,
+                                   AtomicReference<String> zoneRef ) {
+
+        db.collection("daily_check_ins")
+                .whereEqualTo("Child", childName) // Querying by ID is safer than Name
+                .orderBy("timestamp", Query.Direction.DESCENDING) // Get newest first
+                .get()
+                .addOnSuccessListener(querySnap -> {
+                    for (QueryDocumentSnapshot doc : querySnap) {
+                        Log.i("LOGS", "FOUND LOG HERE" );
+                        String date = doc.getString("timestamp");
+                        List<String> triggers = (List<String>) doc.get("Triggers");
+                        if (triggers == null) {
+                            triggers = new ArrayList<>();
+                        }
+                        Log.i("LOGS", "FOUND LOG HERE" + triggers.get(0));
+
+                        // Add to list
+                        reportLogs.add(new ReportGenerationActivity.DailyLog(date, triggers, ""));
+                    }
+                    // Mark Task 3 as done
+                    tasksCompleted.incrementAndGet();
+                    checkIfDataReady(tasksCompleted, reportLogs, reportAdherence, childNameRef, zoneRef, 7);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("REPORT", "Error fetching logs", e);
+                    tasksCompleted.incrementAndGet(); // Proceed even if logs fail
+                    checkIfDataReady(tasksCompleted, reportLogs, reportAdherence, childNameRef, zoneRef, 7);
+                });
+
+    }
+
+    private void generateComprehensiveReport(int currentLookBack) {
+        Toast.makeText(this, "Gathering data...", Toast.LENGTH_SHORT).show();
+
+        // We need to fetch 3 things asynchronously. We'll use a Counter to know when done.
+        AtomicInteger tasksCompleted = new AtomicInteger(0);
+        AtomicReference<Integer> reportAdherence = new AtomicReference<>(0);
+        List<ReportGenerationActivity.DailyLog> reportLogs = Collections.synchronizedList(new ArrayList<>());
+
+        // TASK 1: Get User Details (Name & Schedule for calculator)
+        db.collection("Users").document(childId).get().addOnSuccessListener(doc -> {
+            if (doc.exists()) {
+                String fetchedChildName = doc.getString("displayName"); // Assuming 'name' field exists
+                if (fetchedChildName == null) fetchedChildName = "Child";
+
+                childNameRef.set(doc.getString("displayName"));
+
+//                // Fetch Zone (Assuming 'currentZone' is stored in Users, otherwise default)
+//                String fetchedCurrentZone = doc.getString("currentZone");
+//                if (fetchedCurrentZone == null) fetchedCurrentZone = "Pending";
+
+                zoneRef.set(childZone);
+
+                String fetchedCurrentZone = childZone;
+
+                String scheduleType = doc.getString("schedule");
+                if (scheduleType == null) scheduleType = "Daily";
 
 
 
+                // TASK 2: Get Adherence Score (Nested because we need scheduleType)
+                AdherenceCalculator.calculate(childId, scheduleType, currentLookBack, (score, compliant) -> {
+                    reportAdherence.set(score);
+                    checkIfDataReady(tasksCompleted, reportLogs, reportAdherence, childNameRef, zoneRef, 7);
+                });
+                searchForCheckIns(childNameRef.get(), reportLogs, tasksCompleted, reportAdherence, childNameRef, zoneRef);            }
+
+        });
+
+
+
+        // Mark Task 1 (User fetch) as technically initiated, but the logic inside handles the completion flow
+        tasksCompleted.incrementAndGet();
+    }
+
+    private void checkIfDataReady(AtomicInteger tasks, List<ReportGenerationActivity.DailyLog> logs, AtomicReference<Integer> scoreRef,
+                                  AtomicReference<String> childNameRef, AtomicReference<String> zoneRef, long lookBackDays) {
+        // We expect 2 main async branches to finish (User+Adherence branch, and Logs branch)
+        if (tasks.get() >= 2) {
+            // All data is here!
+            String name = childNameRef.get();
+            String zone = zoneRef.get();
+            int score = scoreRef.get();
+
+            ReportGenerationActivity.AsthmaReportData data = new ReportGenerationActivity.AsthmaReportData(
+                    name,
+                    zone,
+                    score,
+                    "Last " + "30" + " Days",
+                    logs
+            );
+
+            // Generate and Share
+            File pdf = ReportGenerationActivity.generatePdfFromData(this, data);
+            ReportGenerationActivity.sharePdfFile(this, pdf);
+        }
     }
 
 
@@ -253,72 +365,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
                     Log.e("ERRORR", "CANNOT GET PARENT DOCUMENT: " + e.getMessage(), e);
                 });
 
-//        db.collection("Users").document("voS60SSmSSZL9j3XGKyhHNSs4LR2")
-//                        .get().addOnSuccessListener(documentSnapshot ->{
-//                            childList.clear();
-//                            childIdList.clear();
-//
-//                            Log.i("CHILDREN FOUND", "CHILDS: " + documentSnapshot.get("childrenIds"));
-//
-//                            if(documentSnapshot.exists()){
-//                                List<String> childIds = new ArrayList<>();
-//
-//                                try {
-//                                    @SuppressWarnings("unchecked")
-//                                    List<String> rawList = (List<String>) documentSnapshot.get("childrenIds");
-//
-//                                    // 3. Check if the list is present and not null before using it.
-//                                    if (rawList != null) {
-//                                        childIdList.addAll(rawList);
-//                                    }
-//
-//                                } catch (ClassCastException e) {
-//                                    Log.e("FirestoreRead", "The 'children' field data structure is not a List of Strings.", e);
-//                                }
-//
-//                                Log.i("CHILDREN FOUND", "CHILDS: " + childIdList.toString());
-//
-//                            }
-//
-//                            for (String id: childIdList){
-//                                db.collection("Users").document(id).get()
-//                                        .addOnSuccessListener(documentSnapshot1 -> {
-//                                            childList.add((String) documentSnapshot1.get("displayName"));
-//                                        });
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                }).addOnFailureListener(e ->{
-//                    Log.e("ERRORR", "CANNOT GET CHILDREN" + e.getMessage(), e);
-//                });
-
-
-
-
-//        db.collection("users").document("1")
-//                .collection("children")
-//                .get().
-//                addOnSuccessListener(queryDocumentSnapshots -> {
-//                    childList.clear();
-//
-//                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-//                        String childName = document.getString("name");
-//                        if (childName != null) {
-//                            childList.add(childName);
-//                            childIdList.add(document.getId());
-//                        }
-//                    }
-//
-//                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-//
-//                    }
-//
-//                    adapter.notifyDataSetChanged();
-//                    Log.i("SPINNER TAG", "Loaded Children" + childList);
-//
-//                }).addOnFailureListener(e ->{
-//                    Log.e("SPINNER FAILUE", "ERR", e);
-//                });
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -334,6 +380,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
                         assert info != null;
                         box1.setText("Today's Zone:    " + info.getZone());
                         Log.i("PEF LOGS", "Got info on zone: " + info.getZone());
+                        childZone = info.getZone();
                     }else{
                         Log.e("PEF LOGS", "NO ZONE FOUND?");
                         box1.setText("Today's Zone not added yet");
@@ -395,7 +442,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
     @SuppressLint("SetTextI18n")
     protected void dbTest(TextView test_text, String selectedChild){
-        Log.i("DEBUG", "function initilize");
 
         db.collection("sers").
                 document("1")
