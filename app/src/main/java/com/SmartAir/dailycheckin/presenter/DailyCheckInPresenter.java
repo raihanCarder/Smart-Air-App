@@ -5,8 +5,12 @@ import com.SmartAir.dailycheckin.presenter.Date;
 
 import java.util.List;
 
+/**
+ * Presenter implementation for the Daily Check-In feature. The presenter builds the data model
+ * from user input, requests HistoryRepository to save or load data, and forwards
+ * failures/successes back to HistoryActivity.
+ */
 public class DailyCheckInPresenter implements DailyCheckInContract.Presenter {
-
     private final DailyCheckInContract.View view;
     private final DailyCheckInContract.Repository repository;
 

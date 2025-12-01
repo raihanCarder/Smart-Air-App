@@ -4,6 +4,10 @@ import com.SmartAir.dailycheckin.presenter.DailyCheckInDataModel;
 
 import java.util.List;
 
+/**
+ * Contract interfaces defining the communication between the View, Presenter, and Repository,
+ * within the Daily Check-in feature.
+ */
 public interface DailyCheckInContract {
 
     interface View {

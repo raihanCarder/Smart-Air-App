@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.CheckBox;
 import com.SmartAir.dailycheckin.DailyCheckInContract;
 import com.SmartAir.dailycheckin.presenter.DailyCheckInPresenter;
@@ -24,11 +25,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 
+/**
+ * Activity that displays and handles the Daily Check-In form.
+ * Behavior depends on the current user's role:
+ * <ul>
+ *     <li><b>Parent</b>: can select a child from a spinner and submit a check-in on their
+ *     behalf.</li>
+ *     <li><b>Child</b>: sees a personalized welcome message and submits their own check-in.
+ *     </li>
+ * </ul>
+ * The Activity collects symptom and trigger data, then delegates validation and saving to
+ * DailyCheckInPresenter.
+ */
 public class DailyCheckInActivity extends AppCompatActivity implements DailyCheckInContract.View {
 
     private Button submitBtn;
-    private Button exitBtn;
+    private ImageButton exitBtn;
     private TextView roleText;
+    private TextView statusText;
     private Spinner childSelector;
 
     private CheckBox nightWakingCheckBox;
@@ -55,6 +69,7 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         triggerChipGroup = findViewById(R.id.dailyCheckInTriggerChipGroup);
         roleText = findViewById(R.id.roleText);
         childSelector = findViewById(R.id.childSpinner);
+        statusText = findViewById(R.id.titleStatusReport);
 
         if (user.getRole().equals("parent")){
             // Parent view
@@ -66,12 +81,8 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
             roleText.setText("Welcome, " + user.getUserProfile().getDisplayName() + "!");
             childSelector.setVisibility(View.GONE);
 
-            // change layout to look better for child
-            ConstraintLayout.LayoutParams params =
-                    (ConstraintLayout.LayoutParams) nightWakingCheckBox.getLayoutParams();
-            int marginPx = (int) (100 * getResources().getDisplayMetrics().density);
-            params.topMargin = marginPx;
-            nightWakingCheckBox.setLayoutParams(params);
+            // change layout for child
+            setupForChildLayout();
 
             // check if child has already submit daily check-in for today
             presenter.checkIfCanSubmit(user.getUserProfile().getDisplayName());
@@ -182,7 +193,23 @@ public class DailyCheckInActivity extends AppCompatActivity implements DailyChec
         submitBtn.setEnabled(false);
         Toast.makeText(this, "Already Submit Daily-Check-in! Returning Home....",
                 Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(() -> finish(), 2000);
+        new Handler().postDelayed(() -> finish(), 3000);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private void setupForChildLayout() {
+        childSelector.setVisibility(View.GONE);
+
+        ConstraintLayout.LayoutParams statusParams =
+                (ConstraintLayout.LayoutParams) statusText.getLayoutParams();
+
+        statusParams.topToBottom = R.id.roleText;
+        statusParams.topMargin = dpToPx(16);
+
+        statusText.setLayoutParams(statusParams);
     }
 
 }

@@ -1,7 +1,20 @@
 package com.SmartAir.dailycheckin.presenter;
 import java.util.List;
 
+/**
+ * Data model representing one Daily Check-in entry.
+ * It contains all relevant information for the check-in, including:
+ * <ul>
+ *     <li>The date the entry was submitted.</li>
+ *     <li>The author of the entry (child or parent).</li>
+ *     <li>The child's name.</li>
+ *     <li>The parent’s ID.</li>
+ *     <li>Symptom flags (night waking, limited activity, sickness).</li>
+ *     <li>A list of selected environmental triggers.</li>
+ * </ul>
+ */
 public class DailyCheckInDataModel {
+
     private final String date;
     private final String entryAuthor;
     private final String childName;

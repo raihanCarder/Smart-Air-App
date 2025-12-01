@@ -13,6 +13,12 @@ import com.SmartAir.dailycheckin.DailyCheckInContract;
 import com.SmartAir.dailycheckin.presenter.DailyCheckInDataModel;
 import java.util.Set;
 
+/**
+ * Repository implementation for the Daily Check-In feature. This class is responsible for all data
+ * access related to daily check-ins, using Firestore as the backing data store.
+ * This class sends the data to the database, checks if a child can enter a daily check-in, and
+ * checks if a parent can submit any daily check-ins for their children who have not done so.
+ */
 public class DailyCheckInRepository implements DailyCheckInContract.Repository {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
