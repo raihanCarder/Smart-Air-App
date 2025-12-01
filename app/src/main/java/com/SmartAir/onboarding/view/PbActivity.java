@@ -31,14 +31,14 @@ public class PbActivity extends AppCompatActivity implements PbView{
         setContentView(R.layout.activity_pb_setting);
         presenter = new PbPresenter(this);
 
-        Button pefButton = findViewById(R.id.PBNumber);
+        Button pefButton = findViewById(R.id.SetPBButtons);
         pefButton.setOnClickListener(v -> presenter.onPBClicked());
     }
     public void popOut(){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popout_pb);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.ic_launcher_background);
-        Button submit = dialog.findViewById(R.id.Submit_Button);
+        Button submit = dialog.findViewById(R.id.Submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

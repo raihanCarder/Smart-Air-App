@@ -1,0 +1,118 @@
+[
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/xml_backup_rules.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_pb_setting.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_pb_setting.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_entrypoint.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_entrypoint.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_signup.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_welcome.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_welcome.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_provider_home.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_provider_home.xml"
+    },
+    {
+        "merged": "com.SmartAir.app-debug-44:/layout_popout_pb.xml.flat",
+        "source": "com.SmartAir.app-main-46:/layout/popout_pb.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_login.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_login.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_parent_home.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_parent_home.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_popout_pb.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/popout_pb.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_role_selection.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_role_selection.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_password_reset.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_password_reset.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_child_home.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_child_home.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/layout_activity_child_login.xml.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/layout/activity_child_login.xml"
+    },
+    {
+        "merged": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-debug-44:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/vedthakar/.gradle/daemon/8.6/com.SmartAir.app-main-46:/mipmap-mdpi/ic_launcher_round.webp"
+    }
+]
