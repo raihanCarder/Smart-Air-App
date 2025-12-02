@@ -25,9 +25,9 @@ public class AdherenceCalculator {
         cal.add(Calendar.DAY_OF_YEAR, -daysLookback);
         Date lookbackDate = cal.getTime();
 
-        db.collection("controllerLogs")
-                .whereEqualTo("childId", childId)
-                .whereGreaterThan("timestamp", new Timestamp(lookbackDate)) // Only fetch relevant logs
+        db.collection("inhalerLogs").document(childId)
+                .collection("controllerEntries")
+                .whereGreaterThan("timestamp", new Timestamp(lookbackDate))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Date> logDates = new ArrayList<>();
@@ -36,8 +36,11 @@ public class AdherenceCalculator {
                         if (ts != null) logDates.add(ts.toDate());
                     }
 
-                    // Pass the lookback days to the math processor
                     processAdherenceMath(scheduleType, daysLookback, logDates, callback);
+
+
+                    Log.i("Controller Logs", "Found Controller Logs here: ");
+
                 });
     }
 

@@ -48,9 +48,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
 
-
-
-
         // managing scheduling radio button changes
         radioGroupOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

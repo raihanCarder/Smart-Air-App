@@ -46,8 +46,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
     public static String childId = "";
 
-    private static String TESTUSERID = "voS60SSmSSZL9j3XGKyhHNSs4LR2";
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BaseUser user =  CurrentUser.getInstance().getUserProfile();
 
@@ -72,9 +70,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
             childids_fromuser = ((ParentUser) user).getChildrenIds();
 
         }
-
-
-        
 
         // naving to schedule innit
         Button schedule_button = findViewById(R.id.radio_buttons);
@@ -106,22 +101,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
         reportBut.setOnClickListener(v -> generateComprehensiveReport(30));
 
-
-//        List<ReportGenerationActivity.CheckIn> data = Arrays.asList(
-//                new ReportGenerationActivity.CheckIn("2024-11-15", "Red", 4, "Wheezing, Cough", "Had trouble sleeping due to cough."),
-//                new ReportGenerationActivity.CheckIn("2024-11-14", "Yellow", 1, "Mild Cough", "Played soccer, used rescue once.")
-//                );
-//        pdfbutton.setOnClickListener(v -> {
-//            View reportContent = ReportGenerationActivity.createMockReportView(this, data);
-//
-//            File pdfFile = ReportGenerationActivity.generatePdfFromView(this, reportContent, "AsthamaReport");
-//
-//            if (pdfFile != null) {
-//                ReportGenerationActivity.sharePdfFile(this, pdfFile);
-//            }
-//
-//        });
-
         Spinner spinner = findViewById(R.id.mySpinner);
 
         List<String> childList = new ArrayList<>();
@@ -152,10 +131,6 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
             }
         });
-
-
-
-
     }
 
     @Override
@@ -362,7 +337,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
                     }
 
                 }).addOnFailureListener(e ->{
-                    Log.e("ERRORR", "CANNOT GET PARENT DOCUMENT: " + e.getMessage(), e);
+                    Log.e("ERROR", "CANNOT GET PARENT DOCUMENT: " + e.getMessage(), e);
                 });
 
     }
