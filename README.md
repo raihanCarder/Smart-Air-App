@@ -106,6 +106,8 @@ would give the user the most freedom on what they do with it.
 - Children are ages 6-16
 - Providers are read-only and will never need to edit data.
 - Parents will enter Personal Best (PB) for peak-flow calculations.
+- Parents are administrators of child accounts and have access to all child credentials.
+- When a child is logged in under a parent profile, logout should return user to login screen to prevent accidental access to parent account.
 --- 
 ### 🔑 Sample Credentials
 ``` 
