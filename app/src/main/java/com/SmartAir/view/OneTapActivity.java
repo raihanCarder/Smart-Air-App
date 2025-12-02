@@ -24,13 +24,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 public class OneTapActivity extends AppCompatActivity implements OneTapView{
-    RadioButton greyLips, blueLips, otherLips, greyNails, blueNails, otherNails,yesChest,noChest, yesSpeak, noSpeak,  noAttempts;
+    RadioButton greyLips, no, blueLips, otherLips, greyNails, blueNails, otherNails,yesChest,noChest, yesSpeak, noSpeak,  noAttempts;
     Button help, submit;
     EditText PEF, ifYes;
     private OneTapPresenter presenter;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     ;
     boolean cyanosis, chest, speaking, emerg;
+    boolean noRescue = false;
     int redNumber = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,12 @@ public class OneTapActivity extends AppCompatActivity implements OneTapView{
         submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(v -> presenter.submitClicked());
 
+        no = findViewById(R.id.noAttempts);
+        no.setOnClickListener(v->presenter.noClicked());
+
+    }
+    public void setNoTrue(){
+        noRescue = true;
     }
     @Override
     public void callEmergency() {
@@ -98,13 +105,16 @@ public class OneTapActivity extends AppCompatActivity implements OneTapView{
         PEF = findViewById(R.id.currentPEF);
         String value = PEF.getText().toString();
 
+        ifYes = findViewById(R.id.currentPEF);
+        String rescueAttempts = ifYes.getText().toString();
+        int rescueVal = Integer.parseInt(rescueAttempts);
+
         HashMap<Object, Object> ved_test = new HashMap<>();
         ved_test.put("parentId", "parent1");
         ved_test.put("childId", "child1");
         ved_test.put("timestamp", "2025-02-22T01:15:00Z");
         ved_test.put("redFlags", getRed());
-        Toast.makeText(getApplicationContext(), "after get red", Toast.LENGTH_LONG).show();
-        ved_test.put("recentRescuePuffs", "idk how this should look like");
+        ved_test.put("recentRescuePuffs", rescueVal);
         ved_test.put("optionalPEF", Integer.parseInt(value));
         ved_test.put("initialZone", "red");
         ved_test.put( "outcome", getOutCome());
@@ -129,19 +139,13 @@ public class OneTapActivity extends AppCompatActivity implements OneTapView{
         Toast.makeText(getApplicationContext(), "inc red count", Toast.LENGTH_LONG).show();
         redNumber += 1;
     }
-
-    @Override
-    public void homeSteps() {
-
-    }
-
     public String getOutCome(){
         Toast.makeText(getApplicationContext(), "get outcome", Toast.LENGTH_LONG).show();
         if(emerg){
             Toast.makeText(getApplicationContext(), "return call_emergency", Toast.LENGTH_LONG).show();
             return "call_emergency";
         }
-        return "Home_Steps";
+        return homeSteps();
     }
     public HashMap<String, Boolean> getRed(){
         Toast.makeText(getApplicationContext(), "getRed", Toast.LENGTH_LONG).show();
