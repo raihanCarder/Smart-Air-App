@@ -43,16 +43,57 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Onboarding -->
-        <activity android:name=".onboarding.view.WelcomeActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.OnboardingActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.RoleSelectionActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.LoginActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.SignupActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.ChildLoginActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.PasswordResetActivity" android:exported="false" />
-        <activity android:name=".onboarding.view.SelectChildLoginActivity" android:exported="false" />
+        <!-- Onboarding & Home Activities -->
+        <activity
+            android:name=".onboarding.view.WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.OnboardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.RoleSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.ChildLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.PasswordResetActivity"
+            android:exported="false" />
+      <activity android:name=".onboarding.view.SelectChildLoginActivity" android:exported="false" />
+        <activity
+            android:name=".onboarding.view.ParentHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.ProviderHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.ChildHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".dailycheckin.view.DailyCheckInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".glossary.view.GlossaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".history.view.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.AddChildActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.view.SelectChildLoginActivity"
+            android:exported="false" />
+        <activity android:name=".ParentDashboard.view.ParentDashboardActivity"
+            android:exported="false"/>
+        <activity android:name=".ParentDashboard.view.ScheduleActivity"
+            android:exported="false"/>
 
         <!-- Homepage (parent/provider/child) -->
         <activity android:name=".homepage.view.ParentHomeActivity" android:exported="false" />
