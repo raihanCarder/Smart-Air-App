@@ -7,6 +7,10 @@
 
     <!-- Common Actions & Labels -->
     <string name="continue_button_text">Continue</string>
+    <string name="Submit">Submit</string>
+    <string name="USE_PEF_ENTRY">Use PEF Entry</string>
+    <string name="PEF_Entry">PEF val:</string>
+    <string name="username">Username</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="back">Back</string>
@@ -50,7 +54,6 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="displayName">Name</string>
-    <string name="username">Username</string>
     <string name="already_have_account">Already have an account? <b>Login</b></string>
     <string name="dont_have_account">Don\'t have an account? <b>Sign up</b></string>
     <string name="forgot_password">Forgot password?</string>
@@ -78,4 +81,6 @@
     <string name="generate_invite_code">Generate Invite Code</string>
     <string name="copy">Copy</string>
     <string name="revoke_invite_code">Revoke Invite Code</string>
+    <string name="enter_your_pef_number">enter_your_pef_number</string>
+    <string name="enter_pre_med_info_optional">Enter pre Med Info (Optional)</string>
 </resources>
