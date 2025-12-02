@@ -29,7 +29,7 @@
                 android:autofillHints="Q1"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/colour_of_your_lips"
+                android:hint="@string/colour_of_your_lips"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Does your chest feel like it is pulling?"
+                android:hint="Does your chest feel like it is pulling?"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/can_you_speak_full_sentences"
+                android:hint="@string/can_you_speak_full_sentences"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/colour_of_your_nails"
+                android:hint="@string/colour_of_your_nails"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/have_you_used_rescue_attempts"
+                android:hint="@string/have_you_used_rescue_attempts"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -220,7 +220,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
-                    android:text="@string/if_yes_enter_number"
+                    android:hint="@string/if_yes_enter_number"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -239,13 +239,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number"
-                android:text="Enter Current PEF:"
+                android:hint="Enter Current PEF:"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="34dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -8,6 +8,7 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="34" />
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -19,10 +20,12 @@
     <uses-permission android:name="com.SmartAir.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name="com.SmartAir.MyApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:debuggable="true"
+        android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="false"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -32,9 +35,25 @@
         android:testOnly="true"
         android:theme="@style/Theme.SmartAir" >
 
-        <!-- This is the main entry point of the app. It's the first screen the user sees. -->
+        <!-- Required for Google Play Services (prevents SecurityException) -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- FileProvider for sharing files (images, etc.) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.smartair.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Entry Point / Launcher -->
         <activity
-            android:name="com.SmartAir.view.WelcomeActivity"
+            android:name="com.SmartAir.EntryPointActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.SmartAir.view.startTriageActivity"
+            android:name="com.SmartAir.onboarding.view.OneTapActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,36 +70,100 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Onboarding & Home Activities -->
         <activity
-            android:name="com.SmartAir.view.RoleSelectionActivity"
+            android:name="com.SmartAir.onboarding.view.WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name="com.SmartAir.view.OneTapActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name="com.SmartAir.onboarding.view.OnboardingActivity"
+            android:exported="false" />
         <activity
-            android:name="com.SmartAir.view.actionButtonActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name="com.SmartAir.onboarding.view.RoleSelectionActivity"
+            android:exported="false" />
         <activity
-            android:name="com.SmartAir.view.ActionPlanActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name="com.SmartAir.onboarding.view.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.onboarding.view.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.onboarding.view.ChildLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.onboarding.view.PasswordResetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.onboarding.view.SelectChildLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ParentHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ProviderHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ChildHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.dailycheckin.view.DailyCheckInActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.glossary.view.GlossaryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.history.view.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentLink.view.AddChildActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.onboarding.view.SelectChildLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentDashboard.view.ParentDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentDashboard.view.ScheduleActivity"
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!-- Homepage (parent/provider/child) -->
+        <activity
+            android:name="com.SmartAir.homepage.view.ParentHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ProviderHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ChildHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ParentChildDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.homepage.view.ProviderChildDetailActivity"
+            android:exported="false" />
+
+        <!-- ParentLink / Manage children / Sharing -->
+        <activity
+            android:name="com.SmartAir.ParentLink.view.ManageChildrenActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentLink.view.SharingSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentLink.view.AddChildActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentLink.view.EditChildActivity"
+            android:exported="false" />
+
+        <!-- Parent dashboard screens -->
+        <activity
+            android:name="com.SmartAir.ParentDashboard.view.ParentDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.SmartAir.ParentDashboard.view.ScheduleActivity"
+            android:exported="false" />
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
             android:excludeFromRecents="true"
@@ -132,10 +215,19 @@
                 android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.debug.FirebaseAppCheckDebugRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
@@ -198,10 +290,6 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <receiver
             android:name="androidx.profileinstaller.ProfileInstallReceiver"

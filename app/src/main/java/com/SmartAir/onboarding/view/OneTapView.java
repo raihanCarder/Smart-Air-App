@@ -8,4 +8,5 @@ public interface OneTapView {
     public void logForm();
     public void incCount();
     public void setNoTrue();
+    public String homeSteps();
 }

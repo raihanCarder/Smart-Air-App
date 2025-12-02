@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.SmartAir.ParentDashboard.view.ParentDashboardActivity;
 import com.SmartAir.R;
 import com.SmartAir.onboarding.view.OneTapActivity;
 import com.SmartAir.onboarding.presenter.startTriagePresenter;
@@ -33,9 +35,12 @@ public class startTriageActivity extends AppCompatActivity implements startTriag
 
     @Override
     public void openForm() {
+        parentAlert();
         runnable.run();
     }
+    public void parentAlert(){
 
+    }
     Runnable runnable = new Runnable() {
         @Override
         public void run() {

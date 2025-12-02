@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.SmartAir.app-mergeDebugResources-42:/values-v24/values-v24.xml",
+            "outputFile": "com.SmartAir.app-mergeDebugResources-43:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/vedthakar/.gradle/caches/transforms-4/56353fceb05e28485769f02fa46ab8a3/transformed/appcompat-1.6.1/res/values-v24/values-v24.xml",
+                    "source": "/Users/vedthakar/.gradle/caches/8.13/transforms/d85c95cec039028afb8602f5f403a9b1/transformed/appcompat-1.6.1/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/vedthakar/.gradle/caches/transforms-4/643aa4307edf04d89a5a12879ee76917/transformed/material-1.10.0/res/values-v24/values-v24.xml",
+                    "source": "/Users/vedthakar/.gradle/caches/8.13/transforms/9fa125adaf2a96eeeff649a7f32496ff/transformed/material-1.10.0/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",
