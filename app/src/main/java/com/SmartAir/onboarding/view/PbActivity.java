@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SmartAir.R;
+import com.SmartAir.onboarding.model.CurrentUser;
 import com.SmartAir.onboarding.presenter.PbPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,16 +26,19 @@ public class PbActivity extends AppCompatActivity implements PbView{
     FirebaseFirestore firestore;
 
     double PbNumber;
+    private CurrentUser user;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pb_setting);
         presenter = new PbPresenter(this);
+        this.user = CurrentUser.getInstance();
 
         Button pefButton = findViewById(R.id.SetPBButtons);
         pefButton.setOnClickListener(v -> presenter.onPBClicked());
     }
     public void popOut(){
+        String childId = user.getUid();
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popout_pb);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.ic_launcher_background);
@@ -58,14 +62,12 @@ public class PbActivity extends AppCompatActivity implements PbView{
             ved_test.put("Zones", getZoneMap());
             ved_test.put("controllerSchedule", false);
             Toast.makeText(getApplicationContext(), "About to log", Toast.LENGTH_LONG).show();
-
-            firestore.collection("pefLogs").add(ved_test).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            firestore.collection("users").document(childId).update("personalBestPEF", ved_test).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_LONG).show();
+                public void onSuccess(Void unused) {
+                    Toast.makeText(getApplicationContext(), "Succcess", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "FAILURE", Toast.LENGTH_LONG).show());
-
         });
 
         dialog.show();
