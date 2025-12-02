@@ -3,27 +3,29 @@ package com.SmartAir.ParentDashboard.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import com.SmartAir.ParentDashboard.model.ParentModel;
+import com.SmartAir.R;
+import com.SmartAir.onboarding.model.CurrentUser;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.Timestamp;
 import com.SmartAir.ParentDashboard.model.PefLogsModel;
 import com.SmartAir.ParentDashboard.model.RescueLogModel;
-import com.SmartAir.ParentDashboard.presenter.ParentDashboardPresenter;
-import com.SmartAir.R;
-import com.SmartAir.onboarding.model.BaseUser;
-import com.SmartAir.onboarding.model.CurrentUser;
-import com.SmartAir.onboarding.model.ParentUser;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -40,11 +42,12 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.security.auth.login.LoginException;
-
-public class ParentDashboardActivity extends AppCompatActivity implements ParentDashboardView {
+public class ParentDashboardActivity extends AppCompatActivity {
 
     public static String childId = "";
+    private static final String TESTUSERID = "voS60SSmSSZL9j3XGKyhHNSs4LR2";
+    private FirebaseFirestore db;
+    private boolean isTestMode;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BaseUser user =  CurrentUser.getInstance().getUserProfile();
@@ -58,11 +61,14 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_dashboard);
+
+        db = FirebaseFirestore.getInstance();
+        isTestMode = getIntent().getBooleanExtra("testMode", false);
         FirebaseApp.initializeApp(this);
-        
+
         List<String> childids_fromuser;
         //grabbing userid innit
 
@@ -78,6 +84,10 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
                 Intent intent = new Intent(this, ScheduleActivity.class);
                 startActivity(intent);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.parent_dashboard);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 finish();
             }
             else {
@@ -87,7 +97,7 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
 
 
 
-        
+
 
 
         Log.i("TAG", "CREATED PAGE");
@@ -102,38 +112,38 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
         reportBut.setOnClickListener(v -> generateComprehensiveReport(30));
 
         Spinner spinner = findViewById(R.id.mySpinner);
-
         List<String> childList = new ArrayList<>();
         List<String> childIdList = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                childList
-        );
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, childList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
         getUserChildren(adapter, childList, childIdList);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String selectedChild = childList.get(position);
-                String selectedId = childIdList.get(position);
-//                dbTest(box1,selectedChild);
-                childId = selectedId;
-                updateZone(selectedId, box1, box2, box3);
-
+                if (position > 0) { // To account for the 'Select Child' prompt
+                    childId = childIdList.get(position - 1);
+                    updateZone(childId, findViewById(R.id.myText), findViewById(R.id.myText3), findViewById(R.id.myText4));
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
+
+        // Other button initializations can go here
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getOnBackPressedDispatcher().onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     public void navToPdf () {
 //        View reportContent = ReportGenerationActivity.createMockReportView(this, data);
 
@@ -242,20 +252,44 @@ public class ParentDashboardActivity extends AppCompatActivity implements Parent
         }
     }
 
-
     @SuppressLint("SetTextI18n")
-    protected void getUserChildren(ArrayAdapter<String> adapter, List<String> childList, List<String> childIdList){
-        Log.i("DEBUG", "Get Children");
+    private void getUserChildren(ArrayAdapter<String> adapter, List<String> childList, List<String> childIdList) {
+        String uid = isTestMode ? TESTUSERID : (CurrentUser.getInstance().getUserProfile() != null ? CurrentUser.getInstance().getUid() : null);
 
-        Log.i("DEBUG", "Get Children started");
+        if (uid == null) {
+            Toast.makeText(this, "Error: User not logged in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Clear all except the default prompt
-        if (childList.size() > 1) childList.subList(1, childList.size()).clear();
-        if (childIdList.size() > 1) childIdList.subList(1, childIdList.size()).clear();
+        childList.add("Select Child:"); // Prompt
+        adapter.notifyDataSetChanged();
 
-        db.collection("Users").document(CurrentUser.getInstance().getUid())
-                .get().addOnSuccessListener(documentSnapshot ->{
-
+        db.collection("Users").document(uid).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> rawIdList = (List<String>) documentSnapshot.get("childrenIds");
+                if (rawIdList != null && !rawIdList.isEmpty()) {
+                    List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+                    for (String id : rawIdList) {
+                        tasks.add(db.collection("Users").document(id).get());
+                    }
+                    Tasks.whenAllSuccess(tasks).addOnSuccessListener(list -> {
+                        for (Object object : list) {
+                            DocumentSnapshot childSnapshot = (DocumentSnapshot) object;
+                            if (childSnapshot.exists()) {
+                                String displayName = childSnapshot.getString("displayName");
+                                if (displayName != null) {
+                                    childList.add(displayName);
+                                    childIdList.add(childSnapshot.getId());
+                                }
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    });
+                }
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(ParentDashboardActivity.this, "Failed to load children.", Toast.LENGTH_SHORT).show();
+        });
                     List<String> rawIdList = new ArrayList<>();
 
                     if(documentSnapshot.exists()){
