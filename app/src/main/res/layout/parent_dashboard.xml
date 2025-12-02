@@ -16,30 +16,6 @@
 
 
     <TextView
-        android:id="@+id/r6_header"
-        style="@style/DashboardText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/app_name"
-        android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <TextView
-        android:id="@+id/r6_test3"
-        style="@style/DashboardText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="88dp"
-        android:text="@string/parent_dashboard"
-        android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <TextView
         android:id="@+id/myText"
         style="@style/DashboardText"
         android:layout_width="350dp"
@@ -106,23 +82,25 @@
         android:id="@+id/r6_test"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="97dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="34dp"
         android:background="@drawable/text_box"
         android:padding="12dp"
         android:text="@string/select_child"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/r6_test3" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Spinner
         android:id="@+id/mySpinner"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/myText"
         app:layout_constraintStart_toEndOf="@+id/r6_test"
-        app:layout_constraintTop_toBottomOf="@+id/r6_test3" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/btn_generate_report"
@@ -138,8 +116,8 @@
         android:id="@+id/radio_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="312dp"
+        android:layout_marginBottom="72dp"
         android:text="@string/schedule"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -150,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="72dp"
         android:text="History"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,11 +141,21 @@
         android:id="@+id/checkin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="72dp"
         android:text="Check Ins"
         app:layout_constraintBottom_toTopOf="@+id/btn_generate_report"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/inventory_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="12dp"
+        android:text="Inventory"
+        app:layout_constraintBottom_toTopOf="@+id/radio_buttons"
+        app:layout_constraintStart_toEndOf="@+id/checkin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
