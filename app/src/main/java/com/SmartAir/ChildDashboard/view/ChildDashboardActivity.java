@@ -61,7 +61,7 @@ public class ChildDashboardActivity extends AppCompatActivity implements ChildDa
             ChildUser child = (ChildUser) getIntent().getSerializableExtra("CHILD_USER_PROFILE");
             if (child != null && child.getDisplayName() != null) {
                 // Assuming you have a TextView with id welcome_text in your activity_child_dashboard.xml
-                TextView welcomeText = findViewById(R.id.welcome_text);
+                TextView welcomeText = findViewById(R.id.tv_welcome_message);
                 if(welcomeText != null) {
                     welcomeText.setText("Viewing as " + child.getDisplayName());
                 }
