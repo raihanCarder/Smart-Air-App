@@ -8,10 +8,13 @@ The system supports multiple user roles (Child, Parent, Provider) and implements
 
 ---
 ### 📸 App Screenshots
-![HomeScreen](screenshots/homescreen.png)
-![Daily Check-in Screen](screenshots/dailyCheckInFeature.png)
-![History Feature](screenshots/historyFeature.png)
-![Glossary](screenshots/Glossary.png)
+<p float="left">
+  <img src="screenshots/homescreen.png" width="250" />
+  <img src="screenshots/dailyCheckInFeature.png" width="250" />
+  <img src="screenshots/historyFeature.png" width="250" />
+  <img src="screenshots/Glossary.png" width="250" />
+
+</p>
 
 ---
 
