@@ -7,6 +7,13 @@ SMART AIR is a kid-friendly Android app designed to help children (ages 6–16) 
 The system supports multiple user roles (Child, Parent, Provider) and implements selective sharing, safety features, and actionable asthma insights aligned with modern pediatric asthma guidelines.
 
 ---
+### 📸 App Screenshots
+![HomeScreen](screenshots/homescreen.png)
+![Daily Check-in Screen](screenshots/dailyCheckInFeature.png)
+![History Feature](screenshots/historyFeature.png)
+![Glossary](screenshots/Glossary.png)
+
+---
 
 ### ⭐ Core Objectives
 
@@ -43,6 +50,19 @@ The system supports multiple user roles (Child, Parent, Provider) and implements
 - Provider invites are secure, one-time links that expire in 7 days
 - Sharing can be revoked instantly
 ---
+### 🗝️ API Keys & Firebase Configuration
+SMART AIR uses Firebase Authentication and Firebase Firestore. To get the API_KEY needed to access 
+the database and log-in go to app/google-services.json and then ask one of the team members for the
+key! Then Rebuild, sync Gradle and you should be good to go!
+
+⚠️ Without this API_KEY, the app cannot connect to the database or authenticate users.
+---
+### 🛠️ Setup Instructions
+1. Clone the repo in Android Studio.
+2. Add API_KEY to app/google-services.json
+3. Connect an android device or emulator
+4. Press run!
+--- 
 ### 🧱System Structure and How Components Interact
 Smart air was built with an MVP architecture which separates UI, business logic, and 
 database access. With the MVP architecture, we built in a readable and maintainable way to make 
@@ -53,19 +73,8 @@ architecture, the system interacts as follows:
 View -> Presenter -> Model -> Presenter -> View
 ```
 ---
-### Key Modules
-```
-1. Authentication & Role Routing Module  
-Handles all login, credential recovery, and role selection.
-Routes users to the correct home screen (Child, Parent, Provider) based on account type.
-
-Responsibilities:
-- Email/password login
-- First-time role selection
-- Credential validation
-- Secure logout
-- Redirecting users to their appropriate dashboard
-   
+### 👨‍💻Key Modules I worked on
+``` 
 2. Daily Check-in Module
 Daily simple kid-friendly logging of asthma symptoms and triggers for each child. A child user can 
 either submit it themselves or a parent can submit it on their behalf. 
@@ -88,31 +97,8 @@ Responsibilites:
 - Can Filter data by symptoms, dates, and triggers
 - Be able to export selected data as PDF
 
-4. Parent Dashboard, Notifications and Provider Report
-Provide a dashboard which allows the parent to view essential information for each child. Allows for Notifications to be recived by the parent. Generate a provider report with important information on the child and their condition over time.
-
-Responsibilities:
-- Allows a user to select a child a view specific information about current zone, last rescue time and weekly rescue counts.
-- Provides rapid alerts under 10 seconds for red-zone days, "Worse after dose", triage escilation and low/expired inventory
-- Adherence calculation which provides an insight into a child's contoller useage against their schedule
-- Generate a provider report which contains all information which can be given to a medical professional
-- Allow parents to set Personal Best PEF score for each child with calcuations in the backend for the zones and storing info to firebase
-- Allow parents to create a home action plan depending on zone their PEF is in.
-- Send toast for parent if incident starts and thaen on esclation.
-
-5. Child Dashboard:
-Provide a centralized dashboard that allows a child to easily track and manage their daily asthma-related tasks. The dashboard presents clear, age-appropriate information, guides the child through required daily actions, and offers motivation through badges and streaks.
-
-Responsibilities:
-- Allow the child to log controller and rescue inhaler usage.
-- Provide access to daily check-in, PEF entry, and triage tools.
-- Allow the child to update inhaler inventory (remaining doses).
-- Provide easy access to the Technique Helper for correct inhaler usage guidance.
-- Include a motivation system including badges, streaks, and positive reinforcement.
-- Ensure navigation to all core Smart Air features is designed to be easily usable for children.
-- Every 10 minutes during a indicident asks user to redo triage form and log info to firebase
-- Allow user to upload PEF and logs infomation to firebase along side with calcuation of current zone
-
+4. Glossary
+Explain key concepts used in the app.
 ```
 --- 
 ### 🎨 Design choices and Assumptions
@@ -139,13 +125,12 @@ email: krishpatel8976@gmail.com
 password: Abcd123$
 
 // ‍👦 Child
-Note: For a child, you can sign in my entering their username instead of email
-username:
-password:
+username: RaihansChild3
+password: Password123!
 
 // 🩺 Provider 
-email: 
-password:
+email: drsteve@gmail.com
+password: Password123!
 ```
 ---
 ### 💻 Tech Stack
