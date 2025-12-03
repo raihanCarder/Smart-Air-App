@@ -88,14 +88,22 @@ Responsibilites:
 - Can Filter data by symptoms, dates, and triggers
 - Be able to export selected data as PDF
 
+4. Parent Dashboard, Notifications and Provider Report
+Provide a dashboard which allows the parent to view essential information for each child. Allows for Notifications to be recived by the parent. Generate a provider report with important information on the child and their condition over time.
+
+Responsibilities:
+- Allows a user to select a child a view specific information about current zone, last rescue time and weekly rescue counts.
+- Provides rapid alerts under 10 seconds for red-zone days, "Worse after dose", triage escilation and low/expired inventory
+- Adherence calculation which provides an insight into a child's contoller useage against their schedule
+- Generate a provider report which contains all information which can be given to a medical professional 
+
+
 ```
 --- 
 ### 🎨 Design choices and Assumptions
 #### Design Choices
 - MVP architecture was chosen since it's easier to separate UI, Business logic and database logic
 making our code more readable and easier to maintain.
-- We chose Firebase firestore as our database as it was easy to setup with android and easy to work
-with.
 - Daily check-in design was made as simple as possible so kids would actually do it daily without 
 losing interest and could complete it very quickly.
 - History export as pdf feature was chosen to export to the downloads folder in files because it 
@@ -112,8 +120,8 @@ would give the user the most freedom on what they do with it.
 ### 🔑 Sample Credentials
 ``` 
 // 👩‍👦 Parent 
-email: 
-password:
+email: krishpatel8976@gmail.com
+password: Abcd123$
 
 // ‍👦 Child
 username:
