@@ -9,10 +9,11 @@ The system supports multiple user roles (Child, Parent, Provider) and implements
 ---
 ### 📸 App Screenshots
 <p float="left">
-  <img src="screenshots/homescreen.png" width="250" />
-  <img src="screenshots/dailyCheckInFeature.png" width="250" />
-  <img src="screenshots/historyFeature.png" width="250" />
-  <img src="screenshots/Glossary.png" width="250" />
+  <img src="screenshots/homescreen.png" width="200" />
+  <img src="screenshots/dailyCheckInFeature.png" width="200" />
+  <img src="screenshots/historyFeature.png" width="200" />
+  <img src="screenshots/Glossary.png" width="200" />
+  <img src="screenshots/historyFilter.png" width="200" />
 
 </p>
 
@@ -57,8 +58,8 @@ The system supports multiple user roles (Child, Parent, Provider) and implements
 SMART AIR uses Firebase Authentication and Firebase Firestore. To get the API_KEY needed to access 
 the database and log-in go to app/google-services.json and then ask one of the team members for the
 key! Then Rebuild, sync Gradle and you should be good to go!
+#### Warning ⚠️: Without this API_KEY, the app cannot connect to the database or authenticate users.
 
-⚠️ Without this API_KEY, the app cannot connect to the database or authenticate users.
 ---
 ### 🛠️ Setup Instructions
 1. Clone the repo in Android Studio.
