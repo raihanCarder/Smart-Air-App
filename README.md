@@ -124,6 +124,7 @@ email: krishpatel8976@gmail.com
 password: Abcd123$
 
 // ‍👦 Child
+Note: For a child, you can sign in my entering their username instead of email
 username:
 password:
 
