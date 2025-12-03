@@ -9,11 +9,12 @@ The system supports multiple user roles (Child, Parent, Provider) and implements
 ---
 ### 📸 App Screenshots
 <p float="left">
-  <img src="screenshots/homescreen.png" width="200" />
-  <img src="screenshots/dailyCheckInFeature.png" width="200" />
-  <img src="screenshots/historyFeature.png" width="200" />
-  <img src="screenshots/Glossary.png" width="200" />
-  <img src="screenshots/historyFilter.png" width="200" />
+  <img src="screenshots/homescreen.png" width="250" />
+  <img src="screenshots/dailyCheckInFeature.png" width="250" />
+  <img src="screenshots/historyFeature.png" width="250" />
+  <img src="screenshots/Glossary.png" width="250" />
+  <img src="screenshots/historyFilter.png" width="250" />
+  <img src="screenshots/ParentHomeScreen.png" width="250" />
 
 </p>
 
@@ -63,7 +64,7 @@ key! Then Rebuild, sync Gradle and you should be good to go!
 ---
 ### 🛠️ Setup Instructions
 1. Clone the repo in Android Studio.
-2. Add API_KEY to app/google-services.json
+2. Add the given API_KEY to app/google-services.json (Given from one of the contributors)
 3. Connect an android device or emulator
 4. Press run!
 --- 
